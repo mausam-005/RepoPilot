@@ -105,30 +105,7 @@ Developers and project managers often face difficulties managing multiple GitHub
 
 ---
 
-## 📊 9. Folder Structure (Simplified)
-
-RepoPilot/
-├── frontend/ # Next.js (client)
-│ ├── src/
-│ │ ├── components/ # Reusable UI components
-│ │ ├── pages/ # Next.js pages (Home, Auth, Dashboard, etc.)
-│ │ ├── lib/axios.js # Axios API instance
-│ │ └── styles/ # Global Tailwind styles
-│ └── package.json
-│
-├── backend/ # Express.js (API)
-│ ├── src/
-│ │ ├── routes/ # API route definitions
-│ │ ├── controllers/ # Logic for each route
-│ │ ├── config/ # DB and environment config
-│ │ └── server.js # Entry point
-│ └── package.json
-│
-└── README.md
-
----
-
-##  👨‍💻 12. Made By
+## 👨‍💻 9. Author
 
 **Mausam Kumar Dwivedi**  
 🖥️ Built with **Next.js**, **Express**, and **MongoDB**  
@@ -136,6 +113,6 @@ RepoPilot/
 
 ---
 
-## ⭐ 13. Live Demo
+## ⭐ 10. Live Demo
 
 🔗 [https://repopilot-by-mausam.netlify.app](https://repopilot-by-mausam.netlify.app)
