@@ -1,41 +1,36 @@
 # 🚀 RepoPilot – GitHub Explorer & Issue Tracker
 
+> **A unified platform for developers and project managers to explore repositories, manage issues, and monitor GitHub activity — all in one place.**
+
+---
+
 ## 🧩 1. Project Title
 **RepoPilot – GitHub Explorer & Issue Tracker**
 
 ---
 
 ## 💡 2. Problem Statement
-Developers and project managers struggle to manage multiple GitHub repositories, track issues, and monitor updates in one place.  
-Navigating between pages reduces productivity and increases oversight gaps.
+Developers and project managers often face difficulties managing multiple GitHub repositories — navigating between pages to track issues, bookmarks, and project activities reduces productivity and increases oversight gaps.
 
-**RepoPilot** solves this by providing a **unified dashboard** to search repositories, track issues, bookmark repos, and manage project activity with **real-time data**, **CRUD operations**, and **API-based workflows**.
+**RepoPilot** bridges this gap by offering a **centralized dashboard** that enables users to:
+- Search and explore repositories in real time  
+- Track and manage issues using CRUD operations  
+- Bookmark frequently used repositories  
+- View project summaries and activity overviews  
 
 ---
 
 ## 🏗️ 3. System Architecture
-**Architecture Flow:**  
+
+**Flow:**  
 `Frontend → Backend (API) → Database → GitHub API`
 
-### **Frontend**
-- Built with **Next.js (React)** for modern routing and dynamic UI.  
-- Uses **Axios** for API calls and **TailwindCSS** for styling.
-
-### **Backend**
-- **Node.js + Express** REST API for authentication, CRUD operations, and GitHub API integration.
-
-### **Database**
-- **MongoDB Atlas (Non-relational)**  
-
-### **Authentication**
-- **JWT-based login/signup (Primary)**  
-
-### **Hosting**
-| Layer | Service |
-|-------|----------|
-| Frontend | Netlify |
-| Backend | Railway |
-| Database | MongoDB Atlas |
+| Layer | Description |
+|--------|-------------|
+| **Frontend** | Built with **Next.js (React)** for modern routing and fast rendering. Styled using **TailwindCSS** for a sleek, responsive UI. |
+| **Backend** | Developed with **Node.js + Express**, providing REST APIs for authentication, CRUD operations, and GitHub API integration. |
+| **Database** | Hosted on **MongoDB Atlas**, enabling secure and scalable data storage. |
+| **Authentication** | **JWT-based authentication** for secure login and signup. GitHub OAuth optional. |
 
 ---
 
@@ -43,12 +38,12 @@ Navigating between pages reduces productivity and increases oversight gaps.
 
 | Category | Features |
 |-----------|-----------|
-| **Authentication** | Login/Logout with JWT, optional GitHub OAuth, role-based access |
-| **Repository Explorer** | List repositories with search, sort, filter, and pagination |
-| **Issue Tracker** | CRUD (View, Create, Update, Delete) issues with filter & pagination |
-| **Dashboard** | Overview of open issues and recent activity |
-| **Bookmarks** | Mark repositories as favourites for quick access |
-| **Pages** | Home, Login, Dashboard, Repositories, Repository Details, Issues, Bookmarks |
+| 🧑‍💻 **Authentication** | Login/Signup using JWT, secure password hashing, optional GitHub OAuth |
+| 📦 **Repository Explorer** | Search, sort, filter, and paginate repositories in one place |
+| 🐞 **Issue Tracker** | Full CRUD (Create, Read, Update, Delete) operations with pagination |
+| 📊 **Dashboard** | View recent project activity, open issues, and quick stats |
+| ⭐ **Bookmarks** | Mark and organize favorite repositories for easy access |
+| 🧭 **Pages** | Home, Login, Dashboard, Repositories, Repository Details, Issues, Bookmarks |
 
 ---
 
@@ -58,9 +53,9 @@ Navigating between pages reduces productivity and increases oversight gaps.
 |--------|--------------|
 | **Frontend** | Next.js, React, Tailwind CSS, Axios |
 | **Backend** | Node.js, Express.js |
-| **Database** | MongoDB (Primary) / PostgreSQL / MySQL |
-| **Authentication** | JWT (Primary) / OAuth |
-| **Hosting** | Netlify (Frontend), Railway (Backend), MongoDB Atlas (DB) |
+| **Database** | MongoDB Atlas (Primary) |
+| **Authentication** | JWT (Primary), GitHub OAuth (Optional) |
+| **Hosting** | Netlify (Frontend), Render (Backend), MongoDB Atlas (Database) |
 
 ---
 
@@ -68,30 +63,79 @@ Navigating between pages reduces productivity and increases oversight gaps.
 
 | Endpoint | Method | Description | Access |
 |-----------|--------|-------------|---------|
-| `/api/auth/login` | **POST** | Authenticate using JWT | Public |
-| `/api/auth/github` | **POST** | Optional GitHub OAuth login | Public |
-| `/api/user/repos?search=&sort=&filter=&page=` | **GET** | Retrieve GitHub repositories with search, sort, filter, pagination | Authenticated |
-| `/api/repos/:id` | **GET** | Repository details | Authenticated |
-| `/api/repos/:id/issues?page=&filter=` | **GET** | List issues with filter + pagination | Authenticated |
+| `/api/auth/login` | **POST** | Login and generate JWT | Public |
+| `/api/auth/signup` | **POST** | Create new user with hashed password | Public |
+| `/api/user/repos?search=&sort=&filter=&page=` | **GET** | Fetch repositories with search, sort, filter, pagination | Authenticated |
+| `/api/repos/:id` | **GET** | Get details of a specific repository | Authenticated |
+| `/api/repos/:id/issues?page=&filter=` | **GET** | Fetch repository issues | Authenticated |
 | `/api/repos/:id/issues` | **POST** | Create a new issue | Authenticated |
-| `/api/issues/:id` | **PATCH** | Update/close issue | Authenticated |
-| `/api/issues/:id` | **DELETE** | Delete issue | Authenticated |
-| `/api/repos/:id/bookmarks` | **POST** | Add selected repo to bookmarks | Authenticated |
-| `/api/bookmarks` | **GET** | Fetch user bookmarks | Authenticated |
-| `/api/repos/:id/bookmarks` | **DELETE** | Remove selected repo bookmark | Authenticated |
+| `/api/issues/:id` | **PATCH** | Update/close an issue | Authenticated |
+| `/api/issues/:id` | **DELETE** | Delete an issue | Authenticated |
+| `/api/repos/:id/bookmarks` | **POST** | Add repo to bookmarks | Authenticated |
+| `/api/bookmarks` | **GET** | Retrieve all user bookmarks | Authenticated |
+| `/api/repos/:id/bookmarks` | **DELETE** | Remove repo from bookmarks | Authenticated |
 
 ---
 
-## 🌐 7. Deployment
+## 🌐 7. Deployment Details
 
 | Layer | Platform | URL |
 |--------|-----------|-----|
-| **Frontend** | Netlify | *(add your deployed URL here)* |
-| **Backend** | Railway | *(add your deployed URL here)* |
-| **Database** | MongoDB Atlas | *(production cluster connection)* |
+| **Frontend (Next.js)** | Netlify | 🔗 [https://repopilot-by-mausam.netlify.app](https://repopilot-by-mausam.netlify.app) |
+| **Backend (Express API)** | Render | 🔗 [https://repopilot-backend.onrender.com](https://repopilot-backend.onrender.com) |
+| **Database (MongoDB Atlas)** | MongoDB Cloud | 🔐 Production Cluster (private) |
 
 ---
 
-## 👨‍💻 Author
+## 🔐 8. Authentication Flow
+
+1. **User Signup:**  
+   - Email and password sent to `/api/auth/signup`
+   - Password is hashed using **bcrypt**
+   - JWT generated upon success  
+
+2. **User Login:**  
+   - Validates credentials via `/api/auth/login`
+   - JWT returned and stored in `localStorage`  
+   - Token used for all subsequent API requests  
+
+3. **Protected Routes:**  
+   - JWT verified using `Authorization` header  
+   - Expired or invalid tokens return `401 Unauthorized`
+
+---
+
+## 📊 9. Folder Structure (Simplified)
+
+RepoPilot/
+├── frontend/ # Next.js (client)
+│ ├── src/
+│ │ ├── components/ # Reusable UI components
+│ │ ├── pages/ # Next.js pages (Home, Auth, Dashboard, etc.)
+│ │ ├── lib/axios.js # Axios API instance
+│ │ └── styles/ # Global Tailwind styles
+│ └── package.json
+│
+├── backend/ # Express.js (API)
+│ ├── src/
+│ │ ├── routes/ # API route definitions
+│ │ ├── controllers/ # Logic for each route
+│ │ ├── config/ # DB and environment config
+│ │ └── server.js # Entry point
+│ └── package.json
+│
+└── README.md
+
+---
+
+##  👨‍💻 12. Made By
+
 **Mausam Kumar Dwivedi**  
-Built with ❤️ using **Next.js**, **Express**, and **MongoDB**.
+🖥️ Built with **Next.js**, **Express**, and **MongoDB**  
+💙 Hosted with **Netlify** & **Render**
+
+---
+
+## ⭐ 13. Live Demo
+
+🔗 [https://repopilot-by-mausam.netlify.app](https://repopilot-by-mausam.netlify.app)
