@@ -1,8 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import api from '@/lib/axios'
 
 export default function Issues() {
+  const router = useRouter()
   const [owner, setOwner] = useState('')
   const [repo, setRepo] = useState('')
   const [issues, setIssues] = useState([])
@@ -12,6 +14,11 @@ export default function Issues() {
   const [newIssue, setNewIssue] = useState({ title: '', body: '' })
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      router.push('/auth')
+      return
+    }
     fetchMyIssues()
   }, [])
 

@@ -1,9 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import api from '@/lib/axios'
 import Link from 'next/link'
 
 export default function Repositories() {
+  const router = useRouter()
   const [repos, setRepos] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -13,6 +15,11 @@ export default function Repositories() {
   const [bookmarkedIds, setBookmarkedIds] = useState(new Set())
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      router.push('/auth')
+      return
+    }
     fetchRepos()
     fetchBookmarks()
   }, [page])

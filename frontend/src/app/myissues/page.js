@@ -1,8 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import api from '@/lib/axios'
 
 export default function MyIssues() {
+  const router = useRouter()
   const [issues, setIssues] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -13,7 +15,10 @@ export default function MyIssues() {
   const fetchMyIssues = async () => {
     try {
       const token = localStorage.getItem('token')
-      if (!token) return
+      if (!token) {
+        router.push('/auth')
+        return
+      }
       
       const { data } = await api.get('/myissues', {
         headers: { Authorization: `Bearer ${token}` }
