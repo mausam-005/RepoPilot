@@ -1,11 +1,15 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth.routes");
 const healthRoutes = require("./routes/health.routes");
+const reposRoutes = require("./routes/repos.routes");
+const issuesRoutes = require("./routes/issues.routes");
+const bookmarksRoutes = require("./routes/bookmarks.routes");
+const myIssuesRoutes = require("./routes/myissues.routes");
 const auth = require("./middleware/auth");
-
-require("dotenv").config();
 
 const app = express();
 
@@ -36,6 +40,10 @@ app.use(express.json());
 
 app.use("/api/health", auth, healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/repos", reposRoutes);
+app.use("/api/issues", auth, issuesRoutes);
+app.use("/api/bookmarks", auth, bookmarksRoutes);
+app.use("/api/myissues", auth, myIssuesRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
