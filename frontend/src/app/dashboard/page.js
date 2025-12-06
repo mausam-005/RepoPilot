@@ -70,12 +70,12 @@ export default function Dashboard() {
         <Link href="/myissues" className="group">
           <div className="card-midnight p-8">
             <div className="flex items-center justify-between mb-6">
-              <div className="w-14 h-14 rounded-lg flex items-center justify-center" style={{background: 'rgba(136, 136, 136, 0.1)'}}>
-                <svg className="w-7 h-7 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-14 h-14 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(136, 136, 136, 0.1)'}}>
+                <svg className="w-7 h-7 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span className="text-5xl font-bold text-muted">{stats.issues}</span>
+              <span className="text-5xl font-bold text-coral">{stats.issues}</span>
             </div>
             <h3 className="text-xl font-semibold text-primary mb-2">My Issues</h3>
             <p className="text-muted text-sm">Created by you</p>
@@ -90,7 +90,6 @@ export default function Dashboard() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <span className="text-5xl font-bold text-coral">∞</span>
             </div>
             <h3 className="text-xl font-semibold text-primary mb-2">Explore</h3>
             <p className="text-muted text-sm">Search repositories</p>
