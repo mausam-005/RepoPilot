@@ -22,9 +22,8 @@ export default function Auth() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refreshToken", response.data.refreshToken);
 
-      // Trigger auth change event
       window.dispatchEvent(new Event("authChange"));
-      const redirectUrl = isLogin ? "/welcome" : "/welcome?new=true";
+      const redirectUrl = isLogin ? "/dashboard" : "/dashboard";
       router.push(redirectUrl);
     } catch (err) {
       setError(
@@ -36,22 +35,16 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-slate-800/50 border border-slate-700 p-8 rounded-lg w-full max-w-md animate-slide-up">
+    <div className="min-h-screen flex items-center justify-center px-12">
+      <div className="card-midnight w-full max-w-md animate-fade-up">
         <div className="text-center mb-8">
-          <div
-            className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-2xl ${
-              isLogin
-                ? "bg-blue-600/20 border border-blue-500/30"
-                : "bg-green-600/20 border border-green-500/30"
-            }`}
-          >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center text-2xl glow-coral" style={{background: 'var(--accent-coral)'}}>
             {isLogin ? "🔑" : "🚀"}
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-primary mb-2">
             {isLogin ? "Welcome Back" : "Join RepoPilot"}
           </h1>
-          <p className="text-slate-400">
+          <p className="text-muted">
             {isLogin
               ? "Sign in to your account"
               : "Create your account to get started"}
@@ -60,7 +53,7 @@ export default function Auth() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg text-sm">
+            <div className="border border-coral px-4 py-3 rounded-lg text-sm text-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
               {error}
             </div>
           )}
@@ -71,7 +64,8 @@ export default function Auth() {
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-4 bg-slate-900 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none transition-colors text-white"
+              className="w-full p-4 border border-midnight rounded-lg focus:border-coral focus:outline-none transition-colors text-primary"
+              style={{background: 'var(--bg-tertiary)'}}
               required
             />
           </div>
@@ -82,7 +76,8 @@ export default function Auth() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-4 bg-slate-900 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none transition-colors text-white"
+              className="w-full p-4 border border-midnight rounded-lg focus:border-coral focus:outline-none transition-colors text-primary"
+              style={{background: 'var(--bg-tertiary)'}}
               required
             />
           </div>
@@ -90,11 +85,7 @@ export default function Auth() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full p-4 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-              isLogin
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-green-600 hover:bg-green-700"
-            }`}
+            className="w-full btn-coral p-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading
               ? "Please wait..."
@@ -105,7 +96,7 @@ export default function Auth() {
         </form>
 
         <div className="mt-8 text-center">
-          <p className="text-slate-400">
+          <p className="text-muted">
             {isLogin ? "Don't have an account?" : "Already have an account?"}
             <button
               onClick={() => {
@@ -114,7 +105,7 @@ export default function Auth() {
                 setEmail("");
                 setPassword("");
               }}
-              className="text-blue-400 hover:text-blue-300 ml-2 font-medium transition-colors"
+              className="text-coral hover:underline ml-2 font-medium transition-colors"
             >
               {isLogin ? "Sign up" : "Sign in"}
             </button>
