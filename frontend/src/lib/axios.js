@@ -1,11 +1,9 @@
 import axios from "axios";
 
-const base = process.env.NEXT_PUBLIC_API_BASE;
-if (!base) {
-  console.error("NEXT_PUBLIC_API_BASE is not set");
-}
+const base = process.env.NEXT_PUBLIC_API_BASE || 'https://repopilot-backend.onrender.com/api';
 
 console.log('API Base URL:', base);
+console.log('Environment:', process.env.NODE_ENV);
 
 const api = axios.create({
   baseURL: base,
