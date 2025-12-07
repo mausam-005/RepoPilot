@@ -62,17 +62,17 @@ export default function Repositories() {
       if (minForks) {
         query += ` forks:>=${minForks}`
       }
-      // const { data } = await api.get('/repos/search', {
-      //   params: {
-      //     q: query,
-      //     sort: sortBy,
-      //     order: order,
-      //     page: page,
-      //     per_page: 20
-      //   }
-      // })
-      // console.log('API Response:', data)
-      // console.log('Setting repos:', data.items?.length, 'items')
+      const { data } = await api.get('/repos/search', {
+        params: {
+          q: query,
+          sort: sortBy,
+          order: order,
+          page: page,
+          per_page: 20
+        }
+      })
+      console.log('API Response:', data)
+      console.log('Setting repos:', data.items?.length, 'items')
       setRepos(data.items || [])
     } catch (error) {
       console.error('Failed to fetch repos:', error)
@@ -287,7 +287,7 @@ export default function Repositories() {
 
       {loading ? (
         <div className="text-center py-20">
-          <div className="inline-block animate-spin rounded-full h-10 w-12 border-b-2 border-coral"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-coral"></div>
         </div>
       ) : repos.length === 0 ? (
         <div className="text-center py-20 card-midnight">

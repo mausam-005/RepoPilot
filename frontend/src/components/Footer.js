@@ -45,7 +45,7 @@ export default function Footer() {
                 transition: transform 0.3s ease;
               }
               .mausam-link:hover {
-                text-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+                color: #ff6b6b;
               }
               .mausam-link:hover::after {
                 transform: scaleX(1);
