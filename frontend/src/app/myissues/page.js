@@ -79,9 +79,9 @@ export default function MyIssues() {
   }
 
   return (
-    <div className="container mx-auto px-12 py-12">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-primary">My Created Issues</h1>
+    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-primary">My Created Issues</h1>
         <Link href="/issues" className="btn-coral">
           ← Back to Issues
         </Link>
@@ -98,7 +98,7 @@ export default function MyIssues() {
         <div className="space-y-4">
           {issues.map((issue) => (
             <div key={issue._id} className="card-midnight">
-              <div className="flex justify-between items-start mb-3">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
                 <div>
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${
                     issue.state === 'open' ? 'text-primary' : 'text-muted'
@@ -111,10 +111,10 @@ export default function MyIssues() {
                     <span className="font-semibold">{issue.repoOwner}/{issue.repoName}</span>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                   <button
                     onClick={() => updateIssueState(issue)}
-                    className="px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105"
+                    className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap"
                   >
                     {issue.state === 'open' ? 'Close' : 'Reopen'}
                   </button>
@@ -122,7 +122,7 @@ export default function MyIssues() {
                     href={issue.htmlUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="px-4 py-2 rounded-lg text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center gap-1.5"
+                    className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center gap-1.5 whitespace-nowrap"
                     style={{background: 'var(--bg-tertiary)'}}
                   >
                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
@@ -132,18 +132,18 @@ export default function MyIssues() {
                   </a>
                   <button
                     onClick={() => deleteIssue(issue._id)}
-                    className="px-4 py-2 text-coral rounded-lg text-xs font-medium transition-all hover:bg-coral hover:text-white hover:scale-105"
+                    className="px-3 sm:px-4 py-2 text-coral rounded-lg text-xs font-medium transition-all hover:bg-coral hover:text-white hover:scale-105 whitespace-nowrap"
                     style={{background: 'rgba(255, 107, 107, 0.1)'}}
                   >
                     Delete
                   </button>
                 </div>
               </div>
-              <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-lg font-bold text-coral hover:underline block mb-2">
+              <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-base sm:text-lg font-bold text-coral hover:underline block mb-2 break-words">
                 {issue.title}
               </a>
               {issue.body && <p className="text-muted text-sm mt-2">{issue.body}</p>}
-              <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-xs text-gray-400">
                 {issue.createdBy && (
                   <span className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-coral" fill="currentColor" viewBox="0 0 16 16">

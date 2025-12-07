@@ -23,15 +23,15 @@ export default function Hero() {
 
   return (
     <div className="relative">
-      <div className="min-h-screen flex items-center justify-center px-12">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-8 md:px-12">
         <div className="text-center max-w-5xl animate-fade-up">
-          <h1 className="text-6xl md:text-7xl font-bold mb-6 text-primary tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-primary tracking-tight">
             RepoPilot
           </h1>
-          <p className="text-2xl mb-6 font-medium text-coral">
+          <p className="text-xl sm:text-2xl mb-6 font-medium text-coral">
             GitHub Explorer & Issue Tracker
           </p>
-          <p className="text-xl text-muted mb-12 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted mb-12 leading-relaxed max-w-3xl mx-auto">
             A unified dashboard to search repositories, track issues, bookmark repos, and manage project activity — all powered by GitHub API and real-time data.
           </p>
 
@@ -52,18 +52,18 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="py-24 px-12 border-t border-midnight">
+      <div className="py-12 sm:py-16 md:py-24 px-4 sm:px-8 md:px-12 border-t border-midnight">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-primary">
               Key Features
             </h2>
-            <p className="text-xl text-muted max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted max-w-3xl mx-auto">
               Designed for developers and project managers to manage multiple GitHub repositories, track issues, and stay organized.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <div className="card-midnight">
               <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                 <svg className="w-7 h-7 text-coral" fill="currentColor" viewBox="0 0 20 20">

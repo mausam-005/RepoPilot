@@ -87,10 +87,22 @@ body {
 .card-midnight {
   background: linear-gradient(145deg, #2e2e2e, #1f1f1f);
   border-radius: 18px;
-  padding: 35px;
+  padding: 20px;
   box-shadow: 0 25px 50px var(--shadow-soft);
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
+}
+
+@media (min-width: 640px) {
+  .card-midnight {
+    padding: 28px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-midnight {
+    padding: 35px;
+  }
 }
 
 .card-midnight:hover {
@@ -102,16 +114,23 @@ body {
 .btn-coral {
   background: var(--accent-coral);
   color: var(--text-primary);
-  padding: 14px 32px;
+  padding: 12px 24px;
   border-radius: 10px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-block;
   text-decoration: none;
   box-shadow: 0 0 15px var(--accent-coral-glow);
+}
+
+@media (min-width: 640px) {
+  .btn-coral {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
 }
 
 .btn-coral:hover {
@@ -123,15 +142,22 @@ body {
 .btn-dark {
   background: var(--bg-secondary);
   color: var(--text-primary);
-  padding: 14px 32px;
+  padding: 12px 24px;
   border-radius: 10px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-block;
   text-decoration: none;
+}
+
+@media (min-width: 640px) {
+  .btn-dark {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
 }
 
 .btn-dark:hover {

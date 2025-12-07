@@ -102,9 +102,9 @@ export default function Issues() {
   }
 
   return (
-    <div className="container mx-auto px-12 py-12">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-primary">Issue Tracker</h1>
+    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-primary">Issue Tracker</h1>
         <Link href="/myissues" className="btn-coral">
           View My Issues →
         </Link>
@@ -118,7 +118,7 @@ export default function Issues() {
       </div>
 
       <form onSubmit={fetchIssues} className="mb-8">
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             value={searchInput}
@@ -181,9 +181,9 @@ export default function Issues() {
           <div className="space-y-4">
             {issues.map((issue) => (
               <div key={issue.id} className="card-midnight">
-                <div className="flex justify-between items-start gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                  <div className="flex-1 w-full sm:w-auto">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
                         issue.state === 'open' ? 'bg-coral text-primary' : 'text-muted'
                       }`} style={{background: issue.state === 'open' ? 'var(--accent-coral)' : 'var(--bg-tertiary)'}}>
@@ -198,7 +198,7 @@ export default function Issues() {
                       </span>
                       <span className="text-muted">#{issue.number}</span>
                     </div>
-                    <a href={issue.html_url} target="_blank" rel="noopener noreferrer" className="text-xl font-semibold text-coral hover:underline">
+                    <a href={issue.html_url} target="_blank" rel="noopener noreferrer" className="text-lg sm:text-xl font-semibold text-coral hover:underline break-words">
                       {issue.title}
                     </a>
                     {issue.body && <p className="text-muted text-sm mt-2">{issue.body}</p>}
@@ -207,7 +207,7 @@ export default function Issues() {
                   {owner && repo && (
                     <button
                       onClick={() => updateIssue(issue.number, issue.state === 'open' ? 'closed' : 'open')}
-                      className="btn-dark text-sm"
+                      className="btn-dark text-sm whitespace-nowrap w-full sm:w-auto"
                     >
                       {issue.state === 'open' ? 'Close' : 'Reopen'}
                     </button>

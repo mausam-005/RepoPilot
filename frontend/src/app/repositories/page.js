@@ -114,8 +114,8 @@ export default function Repositories() {
   }
 
   return (
-    <div className="container mx-auto px-12 py-12">
-      <h1 className="text-4xl font-bold text-primary mb-6">Explore Repositories</h1>
+    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
+      <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-6">Explore Repositories</h1>
       
       <form onSubmit={handleSearch} className="card-midnight mb-8">
         <div className="mb-4">
@@ -283,13 +283,13 @@ export default function Repositories() {
           <div className="space-y-4">
             {repos.map((repo) => (
               <div key={repo.id} className="card-midnight">
-                <div className="flex justify-between items-start gap-4">
-                  <div className="flex-1">
-                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-xl font-semibold text-coral hover:underline">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                  <div className="flex-1 w-full sm:w-auto">
+                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-lg sm:text-xl font-semibold text-coral hover:underline break-words">
                       {repo.full_name}
                     </a>
                     <p className="text-muted mt-2 mb-4">{repo.description || 'No description'}</p>
-                    <div className="flex items-center gap-4 text-sm text-muted">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted">
                       {repo.language && (
                         <span className="flex items-center gap-1">
                           <svg className="w-3 h-3 text-coral" fill="currentColor" viewBox="0 0 20 20">
@@ -314,7 +314,7 @@ export default function Repositories() {
                   </div>
                   <button
                     onClick={() => toggleBookmark(repo)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors text-sm whitespace-nowrap ${
                       bookmarkedIds.has(repo.id)
                         ? 'btn-coral'
                         : 'btn-dark'

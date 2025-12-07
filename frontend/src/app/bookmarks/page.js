@@ -84,10 +84,10 @@ export default function Bookmarks() {
   }
 
   return (
-    <div className="container mx-auto px-12 py-12">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-primary mb-2">Your Bookmarks</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-2">Your Bookmarks</h1>
           <p className="text-muted"><span className="text-coral text-2xl">{bookmarks.length}</span> starred repositories</p>
         </div>
         {bookmarks.length > 0 && (
@@ -109,13 +109,13 @@ export default function Bookmarks() {
         <div className="space-y-4">
           {bookmarks.map((bookmark) => (
             <div key={bookmark._id} className="card-midnight">
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex-1">
-                  <a href={bookmark.repoUrl} target="_blank" rel="noopener noreferrer" className="text-xl font-semibold text-coral hover:underline">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div className="flex-1 w-full sm:w-auto">
+                  <a href={bookmark.repoUrl} target="_blank" rel="noopener noreferrer" className="text-lg sm:text-xl font-semibold text-coral hover:underline break-words">
                     {bookmark.repoFullName}
                   </a>
                   <p className="text-muted mt-2 mb-4">{bookmark.description || 'No description'}</p>
-                  <div className="flex items-center gap-4 text-sm text-muted">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted">
                     {bookmark.language && (
                       <span className="flex items-center gap-1">
                         <svg className="w-3 h-3 text-coral" fill="currentColor" viewBox="0 0 20 20">
@@ -134,17 +134,17 @@ export default function Bookmarks() {
                     )}
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                   <button
                     onClick={() => setShowIssueForm(showIssueForm === bookmark.repoId ? null : bookmark.repoId)}
-                    className="px-4 py-2 rounded-lg text-primary font-medium border border-midnight hover:border-coral transition-colors"
+                    className="px-3 sm:px-4 py-2 rounded-lg text-primary font-medium border border-midnight hover:border-coral transition-colors text-sm whitespace-nowrap"
                     style={{background: 'var(--bg-tertiary)'}}
                   >
                     {showIssueForm === bookmark.repoId ? 'Cancel' : 'Add Issue'}
                   </button>
                   <button
                     onClick={() => removeBookmark(bookmark.repoId)}
-                    className="px-4 py-2 rounded-lg text-primary font-medium border border-midnight hover:border-coral transition-colors"
+                    className="px-3 sm:px-4 py-2 rounded-lg text-primary font-medium border border-midnight hover:border-coral transition-colors text-sm whitespace-nowrap"
                     style={{background: 'var(--bg-tertiary)'}}
                   >
                     Remove
