@@ -120,7 +120,7 @@ export default function Repositories() {
       <form onSubmit={handleSearch} className="card-midnight mb-8">
         <div className="mb-4">
           <label className="text-muted text-xs mb-2 block">Search Type</label>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-3">
             <button
               type="button"
               onClick={() => setSearchType('repo')}
@@ -189,7 +189,7 @@ export default function Repositories() {
 
           </div>
         </div>
-        <div className="flex gap-3 mb-3">
+        <div className="flex flex-col sm:flex-row gap-3 mb-3">
           <div className="flex-1 relative">
             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -209,11 +209,11 @@ export default function Repositories() {
               style={{background: 'var(--bg-tertiary)'}}
             />
           </div>
-          <button type="submit" className="btn-coral h-10 px-8 font-semibold flex items-center justify-center" style={{padding: '0 32px'}}>
+          <button type="submit" className="btn-coral h-10 px-6 sm:px-8 font-semibold flex items-center justify-center w-full sm:w-auto">
             Search
           </button>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <div>
             <label className="text-muted text-xs mb-1 flex items-center gap-1">
               <svg className="w-3 h-3 text-coral" fill="currentColor" viewBox="0 0 20 20">
