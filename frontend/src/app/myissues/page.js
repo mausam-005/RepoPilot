@@ -128,44 +128,44 @@ export default function MyIssues() {
         <div className="space-y-4">
           {issues.map((issue) => (
             <div key={issue._id} className="card-midnight">
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
-                <div>
+              <div className="flex flex-col md:flex-row justify-between items-start gap-3 mb-3">
+                <div className="flex-shrink-0">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${
                     issue.state === 'open' ? 'text-primary' : 'text-muted'
                   }`} style={{background: issue.state === 'open' ? 'var(--accent-coral)' : 'var(--bg-tertiary)'}}>
                     {issue.state === 'open' ? 'Open' : 'Closed'}
                   </span>
-                  <div className="mt-4 text-2xl text-primary">
+                  <div className="mt-2 text-xs text-primary">
                     <span className="font-semibold">#{issue.issueNumber}</span>
                     <span className="text-muted mx-1.5">•</span>
                     <span className="font-semibold">{issue.repoOwner}/{issue.repoName}</span>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                <div className="flex gap-2 w-full md:w-auto md:flex-shrink-0">
                   {editingIssue === issue._id ? (
                     <>
-                      <button onClick={() => saveEdit(issue)} className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all btn-coral hover:scale-105 whitespace-nowrap">
+                      <button onClick={() => saveEdit(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-coral hover:scale-105 whitespace-nowrap">
                         Save
                       </button>
-                      <button onClick={cancelEdit} className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
+                      <button onClick={cancelEdit} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
                         Cancel
                       </button>
                     </>
                   ) : (
                     <>
-                      <button onClick={() => startEdit(issue)} className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
+                      <button onClick={() => startEdit(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
                         Edit
                       </button>
-                      <button onClick={() => updateIssueState(issue)} className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
+                      <button onClick={() => updateIssueState(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
                         {issue.state === 'open' ? 'Close' : 'Reopen'}
                       </button>
-                      <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center gap-1.5 whitespace-nowrap" style={{background: 'var(--bg-tertiary)'}}>
+                      <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center justify-center gap-1.5 whitespace-nowrap" style={{background: 'var(--bg-tertiary)'}}>
                         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
                           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                         </svg>
                         View on GitHub →
                       </a>
-                      <button onClick={() => deleteIssue(issue._id)} className="px-3 sm:px-4 py-2 text-coral rounded-lg text-xs font-medium transition-all hover:bg-coral hover:text-white hover:scale-105 whitespace-nowrap" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+                      <button onClick={() => deleteIssue(issue._id)} className="flex-1 md:flex-none px-4 py-2 text-coral rounded-lg text-xs font-medium transition-all hover:bg-coral hover:text-white hover:scale-105 whitespace-nowrap" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                         Delete
                       </button>
                     </>
@@ -179,7 +179,7 @@ export default function MyIssues() {
                 </div>
               ) : (
                 <>
-                  <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-base sm:text-lg font-bold text-coral hover:underline block mb-2 break-words">
+                  <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base font-bold text-coral hover:underline block mb-2 break-words">
                     {issue.title}
                   </a>
                   {issue.body && <p className="text-muted text-sm mt-2">{issue.body}</p>}

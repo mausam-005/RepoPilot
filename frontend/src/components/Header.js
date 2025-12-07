@@ -62,7 +62,7 @@ export default function Header() {
           </span>
         </Link>
         
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-6 xl:gap-8">
           <Link href="/" className={`transition-colors ${
             isActivePage('/') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Home</Link>
@@ -80,7 +80,7 @@ export default function Header() {
           }`}>Issues</Link>
           {isLoggedIn ? (
             <>
-              <Link href="/profile" className="focus:outline-none">
+              <Link href="/profile" className="focus:outline-none hidden lg:block">
                 {githubProfile ? (
                   <img src={githubProfile.avatar_url} alt={githubProfile.login} className="w-9 h-9 rounded-full border-2 border-coral object-cover hover:border-opacity-80 transition-all" />
                 ) : (
@@ -90,6 +90,9 @@ export default function Header() {
                     </svg>
                   </div>
                 )}
+              </Link>
+              <Link href="/profile" className="lg:hidden transition-colors text-muted hover:text-primary">
+                Profile
               </Link>
               <button 
                 onClick={handleLogout} 
@@ -135,16 +138,19 @@ export default function Header() {
               }`}>Issues</Link>
               {isLoggedIn ? (
                 <>
-                  <Link href="/profile" className="mx-auto">
+                  <Link href="/profile" className={`flex items-center gap-2 transition-colors ${
+                    isActivePage('/profile') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
+                  }`}>
                     {githubProfile ? (
-                      <img src={githubProfile.avatar_url} alt={githubProfile.login} className="w-14 h-14 rounded-full border-2 border-coral object-cover" />
+                      <img src={githubProfile.avatar_url} alt={githubProfile.login} className="w-5 h-5 rounded-full border border-coral object-cover" />
                     ) : (
-                      <div className="w-14 h-14 rounded-full border-2 border-coral flex items-center justify-center" style={{background: 'var(--bg-tertiary)'}}>
-                        <svg className="w-7 h-7 text-coral" fill="currentColor" viewBox="0 0 16 16">
+                      <div className="w-5 h-5 rounded-full border border-coral flex items-center justify-center" style={{background: 'var(--bg-tertiary)'}}>
+                        <svg className="w-3 h-3 text-coral" fill="currentColor" viewBox="0 0 16 16">
                           <path d="M10.5 5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm.061 3.073a4 4 0 10-5.123 0 6.004 6.004 0 00-3.431 5.142.75.75 0 001.498.07 4.5 4.5 0 018.99 0 .75.75 0 101.498-.07 6.005 6.005 0 00-3.432-5.142z"/>
                         </svg>
                       </div>
                     )}
+                    <span>Profile</span>
                   </Link>
                   <button 
                     onClick={handleLogout} 
