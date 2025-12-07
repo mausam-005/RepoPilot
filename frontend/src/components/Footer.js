@@ -17,7 +17,7 @@ export default function Footer() {
               The ultimate repository management platform designed for modern development teams.
             </p>
             <p className="text-sm sm:text-base text-muted max-w-md pt-3.5 mt-2 border-t border-midnight">
-              Command your code cosmos, co-piloted by{' '}
+              Command your code cosmos,<br className="sm:hidden" /> co-piloted by{' '}
               <a 
                 href="https://portfolio-of-mausam.netlify.app/" 
                 target="_blank" 
