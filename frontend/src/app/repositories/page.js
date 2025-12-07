@@ -71,8 +71,6 @@ export default function Repositories() {
           per_page: 20
         }
       })
-      console.log('API Response:', data)
-      console.log('Setting repos:', data.items?.length, 'items')
       setRepos(data.items || [])
     } catch (error) {
       console.error('Failed to fetch repos:', error)
