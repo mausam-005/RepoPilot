@@ -12,6 +12,17 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.get('/user/:username/issues', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const data = await githubService.searchUserIssues(username);
+    res.json(data);
+  } catch (error) {
+    console.error('User issues error:', error.message);
+    res.status(500).json({ message: 'Failed to fetch user issues', error: error.message });
+  }
+});
+
 router.get('/:owner/:repo', async (req, res) => {
   try {
     const { owner, repo } = req.params;

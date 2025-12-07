@@ -43,5 +43,12 @@ module.exports = {
   async updateIssue(owner, repo, issueNumber, updateData) {
     const { data } = await githubAPI.patch(`/repos/${owner}/${repo}/issues/${issueNumber}`, updateData);
     return data;
+  },
+
+  async searchUserIssues(username) {
+    const { data } = await githubAPI.get('/search/issues', {
+      params: { q: `author:${username} type:issue`, sort: 'created', order: 'desc' }
+    });
+    return data.items;
   }
 };
