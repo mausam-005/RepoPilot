@@ -1,9 +1,10 @@
+'use client'
 import Link from 'next/link'
 
 export default function Footer() {
   return (
     <footer className="border-t border-midnight mt-16" style={{background: 'var(--bg-secondary)'}}>
-      <div className="container mx-auto px-12 py-12">
+      <div className="container mx-auto px-12 pt-12 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
@@ -12,9 +13,44 @@ export default function Footer() {
                 RepoPilot
               </h3>
             </div>
-            <p className="text-muted mb-6 max-w-md">
+            <p className="text-muted mb-4 max-w-md">
               The ultimate repository management platform designed for modern development teams.
             </p>
+            <p className="text-sm sm:text-base text-muted max-w-md pt-3.5 mt-2 border-t border-midnight">
+              Command your code cosmos, co-piloted by{' '}
+              <a 
+                href="https://portfolio-of-mausam.netlify.app/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary font-semibold hover:text-coral transition-all mausam-link"
+              >
+                Mausam
+              </a>.
+            </p>
+            <style jsx>{`
+              .mausam-link {
+                position: relative;
+                text-shadow: none;
+                transition: all 0.3s ease;
+              }
+              .mausam-link::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 1px;
+                bottom: -2px;
+                left: 0;
+                background-color: #ff6b6b;
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+              }
+              .mausam-link:hover {
+                text-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+              }
+              .mausam-link:hover::after {
+                transform: scaleX(1);
+              }
+            `}</style>
           </div>
           <div>
             <h4 className="font-semibold text-primary mb-4">Product</h4>
@@ -29,7 +65,7 @@ export default function Footer() {
             <div className="space-y-2 text-sm">
               <a href="#" className="block text-muted hover:text-coral transition-colors">Documentation</a>
               <a href="#" className="block text-muted hover:text-coral transition-colors">Help Center</a>
-              <a href="#" className="block text-muted hover:text-coral transition-colors">Contact</a>
+              <a href="https://portfolio-of-mausam.netlify.app/" target="_blank" rel="noopener noreferrer" className="block text-muted hover:text-coral transition-colors">Contact</a>
             </div>
           </div>
         </div>
