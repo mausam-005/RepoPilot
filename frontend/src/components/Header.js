@@ -38,7 +38,7 @@ export default function Header() {
 
   return (
     <header className="bg-secondary border-b border-midnight sticky top-0 z-50" style={{height: '70px', background: 'var(--bg-secondary)'}}>
-      <nav className="container mx-auto px-4 sm:px-8 md:px-12 h-full flex items-center justify-between">
+      <nav className="container mx-auto px-4 md:px-6 lg:px-12 h-full flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <img src="/repopilot.png" alt="RepoPilot" className="w-9 h-9 rounded-lg" />
           <span className="text-2xl font-bold text-primary" style={{textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'}}>
@@ -46,28 +46,28 @@ export default function Header() {
           </span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="/" className={`transition-colors text-base ${
+        <div className="hidden md:flex items-center space-x-6 xl:space-x-8">
+          <Link href="/" className={`transition-colors text-sm lg:text-base ${
             isActivePage('/') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Home</Link>
-          <Link href="/dashboard" className={`transition-colors text-base ${
+          <Link href="/dashboard" className={`transition-colors text-sm lg:text-base ${
             isActivePage('/dashboard') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Dashboard</Link>
-          <Link href="/bookmarks" className={`transition-colors text-base ${
+          <Link href="/bookmarks" className={`transition-colors text-sm lg:text-base ${
             isActivePage('/bookmarks') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Bookmarks</Link>
-          <Link href="/repositories" className={`transition-colors text-base ${
+          <Link href="/repositories" className={`transition-colors text-sm lg:text-base ${
             isActivePage('/repositories') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Repositories</Link>
-          <Link href="/issues" className={`transition-colors text-base ${
+          <Link href="/issues" className={`transition-colors text-sm lg:text-base ${
             isActivePage('/issues') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Issues</Link>
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="px-6 py-2.5 rounded-lg font-semibold transition-all border border-midnight hover:border-coral" style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}>
+            <button onClick={handleLogout} className="px-4 lg:px-6 py-2 lg:py-2.5 text-sm lg:text-base rounded-lg font-semibold transition-all border border-midnight hover:border-coral" style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}>
               Sign Out
             </button>
           ) : (
-            <Link href="/auth" className="px-6 py-2.5 rounded-lg font-semibold transition-all glow-coral" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)', display: 'inline-block'}}>
+            <Link href="/auth" className="px-4 lg:px-6 py-2 lg:py-2.5 text-sm lg:text-base rounded-lg font-semibold transition-all glow-coral" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)', display: 'inline-block'}}>
               Sign In
             </Link>
           )}

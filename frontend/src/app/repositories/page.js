@@ -62,10 +62,21 @@ export default function Repositories() {
       if (minForks) {
         query += ` forks:>=${minForks}`
       }
-      const { data } = await api.get(`/repos/search?q=${query}&sort=${sortBy}&order=${order}&page=${page}&per_page=20`)
+      // const { data } = await api.get('/repos/search', {
+      //   params: {
+      //     q: query,
+      //     sort: sortBy,
+      //     order: order,
+      //     page: page,
+      //     per_page: 20
+      //   }
+      // })
+      // console.log('API Response:', data)
+      // console.log('Setting repos:', data.items?.length, 'items')
       setRepos(data.items || [])
     } catch (error) {
       console.error('Failed to fetch repos:', error)
+      alert('Error: ' + (error.response?.data?.message || error.message))
     } finally {
       setLoading(false)
     }
@@ -209,7 +220,7 @@ export default function Repositories() {
               style={{background: 'var(--bg-tertiary)'}}
             />
           </div>
-          <button type="submit" className="btn-coral h-10 px-6 sm:px-8 font-semibold flex items-center justify-center w-full sm:w-auto">
+          <button type="submit" className="h-10 px-6 sm:px-8 font-semibold flex items-center justify-center w-full sm:w-auto rounded-lg" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)', boxShadow: '0 0 15px rgba(255, 107, 107, 0.4)'}}>
             Search
           </button>
         </div>
@@ -277,6 +288,10 @@ export default function Repositories() {
       {loading ? (
         <div className="text-center py-20">
           <div className="inline-block animate-spin rounded-full h-10 w-12 border-b-2 border-coral"></div>
+        </div>
+      ) : repos.length === 0 ? (
+        <div className="text-center py-20 card-midnight">
+          <p className="text-muted text-lg">No repositories found. Try a different search.</p>
         </div>
       ) : (
         <>
