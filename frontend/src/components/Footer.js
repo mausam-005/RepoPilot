@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-midnight mt-16" style={{background: 'var(--bg-secondary)'}}>
       <div className="container mx-auto px-12 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <img src="/repopilot.png" alt="RepoPilot" className="w-9 h-9 rounded-lg"/>
@@ -52,7 +52,7 @@ export default function Footer() {
               }
             `}</style>
           </div>
-          <div>
+          <div className="pt-6 border-t border-midnight md:pt-0 md:border-t-0">
             <h4 className="font-semibold text-primary mb-4">Product</h4>
             <div className="space-y-2 text-sm">
               <Link href="/repositories" className="block text-muted hover:text-coral transition-colors">Repositories</Link>
