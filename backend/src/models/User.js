@@ -12,6 +12,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 4
+  },
+  name: {
+    type: String,
+    default: null
+  },
+  username: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  githubToken: {
+    type: String,
+    default: null
   }
 }, {
   timestamps: true

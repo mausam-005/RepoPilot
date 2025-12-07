@@ -37,6 +37,13 @@ router.patch('/:owner/:repo/:issueNumber', async (req, res) => {
   try {
     const { owner, repo, issueNumber } = req.params;
     const data = await githubService.updateIssue(owner, repo, issueNumber, req.body);
+    
+    await Issue.findOneAndUpdate(
+      { userId: req.user.id, repoOwner: owner, repoName: repo, issueNumber: parseInt(issueNumber) },
+      { state: data.state, title: data.title, body: data.body },
+      { new: true }
+    );
+    
     res.json(data);
   } catch (error) {
     console.error('Update issue error:', error.response?.data || error.message);

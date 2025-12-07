@@ -2,20 +2,55 @@ const express = require('express');
 const User = require('../models/User');
 const router = express.Router();
 
-router.patch('/github-token', async (req, res) => {
+router.patch('/profile', async (req, res) => {
   try {
-    const { githubToken } = req.body;
-    await User.findByIdAndUpdate(req.user.id, { githubToken });
-    res.json({ message: 'GitHub token updated successfully' });
+    const { name, username, githubToken } = req.body;
+    
+    if (username) {
+      const existingUser = await User.findOne({ username, _id: { $ne: req.user.id } });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Username already taken' });
+      }
+    }
+    
+    await User.findByIdAndUpdate(req.user.id, { name, username, githubToken });
+    res.json({ message: 'Profile updated successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update GitHub token' });
+    res.status(500).json({ message: 'Failed to update profile' });
+  }
+});
+
+router.delete('/account', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+    res.json({ message: 'Account deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete account' });
   }
 });
 
 router.get('/profile', async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
+    let githubProfile = null;
+    
+    if (user.githubToken) {
+      try {
+        const axios = require('axios');
+        const { data } = await axios.get('https://api.github.com/user', {
+          headers: { Authorization: `token ${user.githubToken}` }
+        });
+        githubProfile = {
+          login: data.login,
+          name: data.name,
+          avatar_url: data.avatar_url
+        };
+      } catch (error) {
+        githubProfile = null;
+      }
+    }
+    
+    res.json({ ...user.toObject(), githubProfile });
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch profile' });
   }

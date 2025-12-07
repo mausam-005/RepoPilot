@@ -2,17 +2,32 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
+import api from '@/lib/axios'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [githubProfile, setGithubProfile] = useState(null)
   const router = useRouter()
   const pathname = usePathname()
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       const token = localStorage.getItem('token')
       setIsLoggedIn(!!token)
+      
+      if (token) {
+        try {
+          const { data } = await api.get('/user/profile', {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+          setGithubProfile(data.githubProfile)
+        } catch (error) {
+          setGithubProfile(null)
+        }
+      } else {
+        setGithubProfile(null)
+      }
     }
     
     checkAuth()
@@ -32,6 +47,7 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem('token')
     setIsLoggedIn(false)
+    setGithubProfile(null)
     window.dispatchEvent(new Event('authChange'))
     router.push('/')
   }
@@ -46,28 +62,45 @@ export default function Header() {
           </span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-6 xl:space-x-8">
-          <Link href="/" className={`transition-colors text-sm lg:text-base ${
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          <Link href="/" className={`transition-colors ${
             isActivePage('/') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Home</Link>
-          <Link href="/dashboard" className={`transition-colors text-sm lg:text-base ${
+          <Link href="/dashboard" className={`transition-colors ${
             isActivePage('/dashboard') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Dashboard</Link>
-          <Link href="/bookmarks" className={`transition-colors text-sm lg:text-base ${
+          <Link href="/bookmarks" className={`transition-colors ${
             isActivePage('/bookmarks') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Bookmarks</Link>
-          <Link href="/repositories" className={`transition-colors text-sm lg:text-base ${
+          <Link href="/repositories" className={`transition-colors ${
             isActivePage('/repositories') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Repositories</Link>
-          <Link href="/issues" className={`transition-colors text-sm lg:text-base ${
+          <Link href="/issues" className={`transition-colors ${
             isActivePage('/issues') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
           }`}>Issues</Link>
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="px-4 lg:px-6 py-2 lg:py-2.5 text-sm lg:text-base rounded-lg font-semibold transition-all border border-midnight hover:border-coral" style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}>
-              Sign Out
-            </button>
+            <>
+              <Link href="/profile" className="focus:outline-none">
+                {githubProfile ? (
+                  <img src={githubProfile.avatar_url} alt={githubProfile.login} className="w-9 h-9 rounded-full border-2 border-coral object-cover hover:border-opacity-80 transition-all" />
+                ) : (
+                  <div className="w-9 h-9 rounded-full border-2 border-coral flex items-center justify-center hover:border-opacity-80 transition-all" style={{background: 'var(--bg-tertiary)'}}>
+                    <svg className="w-5 h-5 text-coral" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M10.5 5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm.061 3.073a4 4 0 10-5.123 0 6.004 6.004 0 00-3.431 5.142.75.75 0 001.498.07 4.5 4.5 0 018.99 0 .75.75 0 101.498-.07 6.005 6.005 0 00-3.432-5.142z"/>
+                    </svg>
+                  </div>
+                )}
+              </Link>
+              <button 
+                onClick={handleLogout} 
+                className="px-5 py-2 rounded-lg font-semibold transition-all border border-midnight hover:border-coral" 
+                style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+              >
+                Sign Out
+              </button>
+            </>
           ) : (
-            <Link href="/auth" className="px-4 lg:px-6 py-2 lg:py-2.5 text-sm lg:text-base rounded-lg font-semibold transition-all glow-coral" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)', display: 'inline-block'}}>
+            <Link href="/auth" className="px-5 py-2 rounded-lg font-semibold transition-all glow-coral" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)', display: 'inline-block'}}>
               Sign In
             </Link>
           )}
@@ -101,9 +134,26 @@ export default function Header() {
                 isActivePage('/issues') ? 'text-primary font-medium text-coral' : 'text-muted hover:text-primary'
               }`}>Issues</Link>
               {isLoggedIn ? (
-                <button onClick={handleLogout} className="px-6 py-2.5 rounded-lg font-semibold transition-all border border-midnight hover:border-coral text-center w-full" style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}>
-                  Sign Out
-                </button>
+                <>
+                  <Link href="/profile" className="mx-auto">
+                    {githubProfile ? (
+                      <img src={githubProfile.avatar_url} alt={githubProfile.login} className="w-14 h-14 rounded-full border-2 border-coral object-cover" />
+                    ) : (
+                      <div className="w-14 h-14 rounded-full border-2 border-coral flex items-center justify-center" style={{background: 'var(--bg-tertiary)'}}>
+                        <svg className="w-7 h-7 text-coral" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M10.5 5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm.061 3.073a4 4 0 10-5.123 0 6.004 6.004 0 00-3.431 5.142.75.75 0 001.498.07 4.5 4.5 0 018.99 0 .75.75 0 101.498-.07 6.005 6.005 0 00-3.432-5.142z"/>
+                        </svg>
+                      </div>
+                    )}
+                  </Link>
+                  <button 
+                    onClick={handleLogout} 
+                    className="px-6 py-2.5 rounded-lg font-semibold transition-all border border-midnight hover:border-coral text-center w-full" 
+                    style={{background: 'var(--bg-tertiary)', color: 'var(--text-primary)'}}
+                  >
+                    Sign Out
+                  </button>
+                </>
               ) : (
                 <Link href="/auth" className="px-6 py-2.5 rounded-lg font-semibold transition-all glow-coral text-center block" style={{background: 'var(--accent-coral)', color: 'var(--text-primary)'}}>
                   Sign In

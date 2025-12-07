@@ -9,6 +9,7 @@ const reposRoutes = require("./routes/repos.routes");
 const issuesRoutes = require("./routes/issues.routes");
 const bookmarksRoutes = require("./routes/bookmarks.routes");
 const myIssuesRoutes = require("./routes/myissues.routes");
+const userRoutes = require("./routes/user.routes");
 const auth = require("./middleware/auth");
 
 const app = express();
@@ -44,6 +45,7 @@ app.use("/api/repos", reposRoutes);
 app.use("/api/issues", auth, issuesRoutes);
 app.use("/api/bookmarks", auth, bookmarksRoutes);
 app.use("/api/myissues", auth, myIssuesRoutes);
+app.use("/api/user", auth, userRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
