@@ -45,7 +45,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container mx-auto px-12 py-16">
+    <div className="container mx-auto my-auto px-12 py-16">
       <div className="mb-12">
         <h1 className="text-5xl font-bold text-primary mb-3">Dashboard</h1>
         <p className="text-muted text-xl">Welcome back! Here's your activity overview</p>
@@ -102,7 +102,7 @@ export default function Dashboard() {
           <h2 className="text-2xl font-semibold text-primary mb-6">Quick Actions</h2>
           <div className="space-y-3">
             <Link href="/repositories" className="flex items-center gap-4 p-4 rounded-lg hover:bg-opacity-80 transition-colors group border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                 <svg className="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -110,7 +110,7 @@ export default function Dashboard() {
               <span className="text-primary font-medium text-lg">Search Repositories</span>
             </Link>
             <Link href="/issues" className="flex items-center gap-4 p-4 rounded-lg hover:bg-opacity-80 transition-colors group border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                 <svg className="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
@@ -123,7 +123,7 @@ export default function Dashboard() {
         <div className="card-midnight">
           <h2 className="text-2xl font-semibold text-primary mb-6">Getting Started</h2>
           <ul className="space-y-4">
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-3 ">
               <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 glow-coral" style={{background: 'rgba(255, 107, 107, 0.2)'}}>
                 <span className="text-coral text-sm font-bold">1</span>
               </div>

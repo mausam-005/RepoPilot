@@ -87,7 +87,7 @@ export default function Bookmarks() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-4xl font-bold text-primary mb-2">Your Bookmarks</h1>
-          <p className="text-muted"><span className="text-coral">{bookmarks.length}</span> starred repositories</p>
+          <p className="text-muted"><span className="text-coral text-2xl">{bookmarks.length}</span> starred repositories</p>
         </div>
         {bookmarks.length > 0 && (
           <button onClick={removeAllBookmarks} className="btn-dark">
