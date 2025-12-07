@@ -110,9 +110,9 @@ export default function MyIssues() {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-primary">My Created Issues</h1>
-        <Link href="/issues" className="btn-coral">
+      <div className="flex justify-between items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">My Created Issues</h1>
+        <Link href="/issues" className="btn-coral whitespace-nowrap">
           ← Back to Issues
         </Link>
       </div>
@@ -125,67 +125,40 @@ export default function MyIssues() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {issues.map((issue) => (
-            <div key={issue._id} className="card-midnight">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-3 mb-3">
-                <div className="flex-shrink-0">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${
-                    issue.state === 'open' ? 'text-primary' : 'text-muted'
-                  }`} style={{background: issue.state === 'open' ? 'var(--accent-coral)' : 'var(--bg-tertiary)'}}>
-                    {issue.state === 'open' ? 'Open' : 'Closed'}
-                  </span>
-                  <div className="mt-2 text-xs text-primary">
-                    <span className="font-semibold">#{issue.issueNumber}</span>
-                    <span className="text-muted mx-1.5">•</span>
-                    <span className="font-semibold">{issue.repoOwner}/{issue.repoName}</span>
-                  </div>
-                </div>
-                <div className="flex gap-2 w-full md:w-auto md:flex-shrink-0">
-                  {editingIssue === issue._id ? (
-                    <>
-                      <button onClick={() => saveEdit(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-coral hover:scale-105 whitespace-nowrap">
-                        Save
-                      </button>
-                      <button onClick={cancelEdit} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => startEdit(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
-                        Edit
-                      </button>
-                      <button onClick={() => updateIssueState(issue)} className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all btn-dark hover:scale-105 whitespace-nowrap">
-                        {issue.state === 'open' ? 'Close' : 'Reopen'}
-                      </button>
-                      <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center justify-center gap-1.5 whitespace-nowrap" style={{background: 'var(--bg-tertiary)'}}>
-                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
-                          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                        </svg>
-                        View on GitHub →
-                      </a>
-                      <button onClick={() => deleteIssue(issue._id)} className="flex-1 md:flex-none px-4 py-2 text-coral rounded-lg text-xs font-medium transition-all hover:bg-coral hover:text-white hover:scale-105 whitespace-nowrap" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
+            <div key={issue._id} className="card-midnight relative p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-1.5 sm:mb-2">
+                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                  issue.state === 'open' ? 'text-primary' : 'text-muted'
+                }`} style={{background: issue.state === 'open' ? 'var(--accent-coral)' : 'var(--bg-tertiary)'}}>
+                  {issue.state === 'open' ? 'Open' : 'Closed'}
+                </span>
+                <button onClick={() => deleteIssue(issue._id)} className="p-1 text-coral hover:text-white hover:bg-coral rounded transition-all" title="Delete issue">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap mb-2 sm:mb-3">
+                <span className="text-1.5xl text-primary font-semibold">#{issue.issueNumber}</span>
+                <span className="text-muted text-1.5xl">•</span>
+                <span className="text-1.5xl text-primary font-semibold">{issue.repoOwner}/{issue.repoName}</span>
               </div>
               {editingIssue === issue._id ? (
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3 mb-2 sm:mb-3 pt-2 border-t border-midnight">
                   <input type="text" value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} className="w-full px-4 py-2 border border-midnight rounded-lg text-primary focus:border-coral focus:outline-none" style={{background: 'var(--bg-tertiary)'}} placeholder="Issue title" />
                   <textarea value={editForm.body} onChange={(e) => setEditForm({ ...editForm, body: e.target.value })} className="w-full px-4 py-2 border border-midnight rounded-lg text-primary focus:border-coral focus:outline-none" style={{background: 'var(--bg-tertiary)'}} rows="4" placeholder="Issue description" />
                 </div>
               ) : (
-                <>
-                  <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base font-bold text-coral hover:underline block mb-2 break-words">
+                <div className="pt-2 border-t border-midnight">
+                  <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="text-sm md:text-base font-bold text-coral hover:underline block break-words">
                     {issue.title}
                   </a>
-                  {issue.body && <p className="text-muted text-sm mt-2">{issue.body}</p>}
-                </>
+                  {issue.body && <p className="text-muted text-sm mt-1.5 sm:mt-2 mb-2 sm:mb-3">{issue.body}</p>}
+                </div>
               )}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-xs text-gray-400">
+              <div className="flex flex-wrap items-center gap-2 py-1.5 sm:py-2 border-midnight text-xs text-gray-400">
                 {issue.createdBy && (
                   <span className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-coral" fill="currentColor" viewBox="0 0 16 16">
@@ -206,6 +179,34 @@ export default function MyIssues() {
                   </svg>
                   {Math.floor((Date.now() - new Date(issue.createdAt)) / (1000 * 60 * 60 * 24))} days ago
                 </span>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-1.5 mt-3 pt-3 border-t border-midnight -mb-2">
+                {editingIssue === issue._id ? (
+                  <>
+                    <button onClick={() => saveEdit(issue)} className="w-full sm:flex-1 px-2.5 py-1 rounded text-xs font-medium transition-all btn-coral hover:scale-105">
+                      Save
+                    </button>
+                    <button onClick={cancelEdit} className="w-full sm:flex-1 px-2.5 py-1 rounded text-xs font-medium transition-all btn-dark hover:scale-105">
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => startEdit(issue)} className="w-full sm:flex-1 px-2.5 py-1 rounded text-xs font-medium transition-all btn-dark hover:scale-105">
+                      Edit
+                    </button>
+                    <button onClick={() => updateIssueState(issue)} className="w-full sm:flex-1 px-2.5 py-1 rounded text-xs font-medium transition-all btn-dark hover:scale-105">
+                      {issue.state === 'open' ? 'Close' : 'Reopen'}
+                    </button>
+                    <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:flex-1 px-2.5 py-1 rounded text-xs font-medium transition-all border border-midnight hover:border-coral hover:scale-105 flex items-center justify-center gap-1" style={{background: 'var(--bg-tertiary)'}}>
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                      </svg>
+                      <span className="hidden sm:inline">View on GitHub</span>
+                      <span className="sm:hidden">GitHub</span>
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           ))}
