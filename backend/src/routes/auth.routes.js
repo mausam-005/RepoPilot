@@ -20,12 +20,15 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'Password must be at least 4 characters long' });
     }
 
-    const existingEmail = await User.findOne({ email });
+    const [existingEmail, existingUsername] = await Promise.all([
+      User.findOne({ email }),
+      User.findOne({ username })
+    ]);
+
     if (existingEmail) {
       return res.status(400).json({ message: 'User with this email already exists' });
     }
 
-    const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       return res.status(400).json({ message: 'Username is already taken' });
     }

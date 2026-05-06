@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 
@@ -15,6 +15,13 @@ export default function Auth() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+  useEffect(() => {
+    // Wake up the backend server if it's sleeping (Render free tier)
+    api.get("/health").catch(() => {
+      // Ignore errors, we just want to trigger a wake-up
+    });
+  }, []);
 
   const suggestUsername = () => {
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
