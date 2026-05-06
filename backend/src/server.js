@@ -39,6 +39,7 @@ app.use(
     },
     exposedHeaders: ["x-access-token", "x-refresh-token"],
     credentials: true,
+    maxAge: 86400
   })
 );
 
