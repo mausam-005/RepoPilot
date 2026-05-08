@@ -3,13 +3,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 
+const adjectives = ["Cool", "Super", "Happy", "Smart", "Brave", "Swift", "Cosmic", "Neon", "Cyber", "Ninja"];
+const nouns = ["Coder", "Pilot", "Dev", "Hacker", "Fox", "Bear", "Wolf", "Owl", "Eagle", "Panda"];
+
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const suggestUsername = () => {
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const num = Math.floor(Math.random() * 1000);
+    setUsername(`${adj}${noun}${num}`);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +30,8 @@ export default function Auth() {
 
     try {
       const endpoint = isLogin ? "/auth/login" : "/auth/signup";
-      const response = await api.post(endpoint, { email, password });
+      const payload = isLogin ? { identifier: email, password } : { email, password, name, username };
+      const response = await api.post(endpoint, payload);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refreshToken", response.data.refreshToken);
 
@@ -66,14 +79,60 @@ export default function Auth() {
             </div>
           )}
 
+          {!isLogin && (
+            <>
+              <div className="relative">
+                <svg className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border border-midnight rounded-lg focus:border-coral focus:outline-none transition-colors text-primary text-sm sm:text-base"
+                  style={{background: 'var(--bg-tertiary)'}}
+                  required
+                />
+              </div>
+
+              <div className="relative flex items-center">
+                <div className="relative flex-grow">
+                  <svg className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border border-midnight rounded-lg focus:border-coral focus:outline-none transition-colors text-primary text-sm sm:text-base"
+                    style={{background: 'var(--bg-tertiary)'}}
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={suggestUsername}
+                  className="ml-2 p-3 sm:p-4 rounded-lg bg-midnight text-coral hover:bg-opacity-80 transition-colors border border-midnight focus:outline-none"
+                  title="Suggest random username"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </button>
+              </div>
+            </>
+          )}
+
           <div className="relative">
             <svg className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
             </svg>
             <input
-              type="email"
-              placeholder="Email address"
+              type={isLogin ? "text" : "email"}
+              placeholder={isLogin ? "Email or Username" : "Email address"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 border border-midnight rounded-lg focus:border-coral focus:outline-none transition-colors text-primary text-sm sm:text-base"
@@ -119,6 +178,8 @@ export default function Auth() {
                 setError("");
                 setEmail("");
                 setPassword("");
+                setName("");
+                setUsername("");
               }}
               className="text-coral hover:underline ml-2 font-medium transition-colors"
             >
@@ -130,3 +191,4 @@ export default function Auth() {
     </div>
   );
 }
+

@@ -22,10 +22,15 @@ const allowedOrigins = [
   "https://repopilot-by-mausam.netlify.app",
 ];
 
+const corsOrigin = process.env.CORS_ORIGIN;
+
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
+      if (corsOrigin && (origin === corsOrigin)) {
+        return callback(null, true);
+      }
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -39,7 +44,7 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api/health", auth, healthRoutes);
+app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/repos", reposRoutes);
 app.use("/api/issues", auth, issuesRoutes);

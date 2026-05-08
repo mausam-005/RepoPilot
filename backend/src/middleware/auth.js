@@ -13,6 +13,11 @@ const auth = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id).select("-password");
+    
+    if (!req.user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+    
     return next();  
   } catch (error) {
     const refreshToken = req.header("refreshToken");
@@ -20,12 +25,16 @@ const auth = async (req, res, next) => {
       return res.status(401).json({ message: "malformed" });
     }
     try {
-      //console.log to see what is inside decoded,(the payload embedded in auth controller of login)
       const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
-      const { newAccessToken, newRefreshToken } = generataTokenPair(decoded);
+      const { newAccessToken, newRefreshToken } = generateTokenPair(decoded);
       res.header("x-access-token", newAccessToken);
       res.header("x-refresh-token", newRefreshToken);
       req.user = await User.findById(decoded.id).select("-password");
+      
+      if (!req.user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+      
       return next();
     } catch (error) {
       return res.status(401).json({ message: "Token is invalid" });
@@ -33,7 +42,7 @@ const auth = async (req, res, next) => {
   }
 };
 
-const generataTokenPair = (decoded) => {
+const generateTokenPair = (decoded) => {
   const accessToken = jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });

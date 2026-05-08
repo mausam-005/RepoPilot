@@ -5,17 +5,32 @@ const router = express.Router();
 router.patch('/profile', async (req, res) => {
   try {
     const { name, username, githubToken } = req.body;
+    const updateData = {};
     
-    if (username) {
-      const existingUser = await User.findOne({ username, _id: { $ne: req.user.id } });
-      if (existingUser) {
-        return res.status(400).json({ message: 'Username already taken' });
+    if (name !== undefined) updateData.name = name;
+    
+    if (username !== undefined) {
+      const targetUsername = username || null;
+      if (targetUsername) {
+        const existingUser = await User.findOne({ 
+          username: targetUsername, 
+          _id: { $ne: req.user.id } 
+        });
+        if (existingUser) {
+          return res.status(400).json({ message: 'Username already taken' });
+        }
       }
+      updateData.username = targetUsername;
     }
     
-    await User.findByIdAndUpdate(req.user.id, { name, username, githubToken });
+    if (githubToken !== undefined) {
+      updateData.githubToken = githubToken || null;
+    }
+    
+    await User.findByIdAndUpdate(req.user.id, updateData);
     res.json({ message: 'Profile updated successfully' });
   } catch (error) {
+    console.error('Profile update error:', error);
     res.status(500).json({ message: 'Failed to update profile' });
   }
 });
