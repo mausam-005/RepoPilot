@@ -52,8 +52,12 @@ router.post('/signup', async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('[signup] error:', error.message);
     if (error.name === 'ValidationError') {
       return res.status(400).json({ message: 'Invalid input data' });
+    }
+    if (error.name === 'MongoNotConnectedError' || error.message?.includes('buffering timed out') || error.message?.includes('ENOTFOUND')) {
+      return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
     }
     res.status(500).json({ message: 'Server error occurred' });
   }
@@ -99,6 +103,10 @@ router.post('/login', async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('[login] error:', error.message);
+    if (error.name === 'MongoNotConnectedError' || error.message?.includes('buffering timed out') || error.message?.includes('ENOTFOUND')) {
+      return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server error occurred' });
   }
 });
