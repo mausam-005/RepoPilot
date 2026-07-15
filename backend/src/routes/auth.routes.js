@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 const User = require('../models/User');
 
 const router = express.Router();
@@ -33,7 +34,8 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'Username is already taken' });
     }
 
-    const user = new User({ email, password, name, username });
+    const avatarUrl = `https://picsum.photos/seed/${username}/200/200`;
+    const user = new User({ email, password, name, username, avatarUrl });
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -108,6 +110,105 @@ router.post('/login', async (req, res) => {
       return res.status(503).json({ message: 'Database unavailable. Please try again later.' });
     }
     res.status(500).json({ message: 'Server error occurred' });
+  }
+});
+
+router.get('/github', (req, res) => {
+  const redirectUri = process.env.GITHUB_REDIRECT_URI || 'http://localhost:3000/auth/github/callback';
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${redirectUri}&scope=repo,user`;
+  res.redirect(url);
+});
+
+router.post('/github/callback', async (req, res) => {
+  try {
+    const { code } = req.body;
+    if (!code) {
+      return res.status(400).json({ message: 'No code provided' });
+    }
+
+    const tokenResponse = await axios.post('https://github.com/login/oauth/access_token', {
+      client_id: process.env.GITHUB_CLIENT_ID,
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
+      code
+    }, {
+      headers: {
+        Accept: 'application/json'
+      }
+    });
+
+    const accessToken = tokenResponse.data.access_token;
+    if (!accessToken) {
+      return res.status(400).json({ message: 'Failed to retrieve access token from GitHub' });
+    }
+
+    // Fetch user details from GitHub
+    const githubUserRes = await axios.get('https://api.github.com/user', {
+      headers: { Authorization: `token ${accessToken}` }
+    });
+    const githubUser = githubUserRes.data;
+
+    const githubEmailsRes = await axios.get('https://api.github.com/user/emails', {
+      headers: { Authorization: `token ${accessToken}` }
+    });
+    
+    // Find primary email
+    const primaryEmailObj = githubEmailsRes.data.find(e => e.primary) || githubEmailsRes.data[0];
+    const email = primaryEmailObj ? primaryEmailObj.email : null;
+
+    if (!email) {
+      return res.status(400).json({ message: 'No email associated with this GitHub account' });
+    }
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Update existing user with github token
+      user.githubToken = accessToken;
+      await user.save();
+    } else {
+      // Create new user with a random secure password
+      const randomPassword = require('crypto').randomBytes(16).toString('hex');
+      
+      // Ensure unique username
+      let username = githubUser.login;
+      let usernameExists = await User.findOne({ username });
+      if (usernameExists) {
+        username = `${username}_${Math.floor(Math.random() * 10000)}`;
+      }
+
+      const avatarUrl = githubUser.avatar_url || `https://picsum.photos/seed/${username}/200/200`;
+      user = new User({
+        email,
+        password: randomPassword,
+        name: githubUser.name || githubUser.login,
+        username,
+        githubToken: accessToken,
+        avatarUrl
+      });
+      await user.save();
+    }
+
+    // Generate JWTs
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d'
+    });
+    const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '30d'
+    });
+
+    res.json({
+      token: jwtToken,
+      refreshToken,
+      user: {
+        id: user._id,
+        email: user.email,
+        githubToken: accessToken
+      }
+    });
+  } catch (error) {
+    console.error('GitHub OAuth error:', error.message);
+    res.status(500).json({ message: 'Failed to authenticate with GitHub' });
   }
 });
 

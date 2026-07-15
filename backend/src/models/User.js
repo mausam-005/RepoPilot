@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
   githubToken: {
     type: String,
     default: null
+  },
+  avatarUrl: {
+    type: String,
+    default: null
   }
 }, {
   timestamps: true

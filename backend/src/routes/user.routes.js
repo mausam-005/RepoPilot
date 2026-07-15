@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.patch('/profile', async (req, res) => {
   try {
-    const { name, username, githubToken } = req.body;
+    const { name, username, githubToken, avatarUrl } = req.body;
     const updateData = {};
     
     if (name !== undefined) updateData.name = name;
@@ -25,6 +25,10 @@ router.patch('/profile', async (req, res) => {
     
     if (githubToken !== undefined) {
       updateData.githubToken = githubToken || null;
+    }
+    
+    if (avatarUrl !== undefined) {
+      updateData.avatarUrl = avatarUrl || null;
     }
     
     await User.findByIdAndUpdate(req.user.id, updateData);
