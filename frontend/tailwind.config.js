@@ -7,6 +7,22 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: 'var(--bg-primary)',
+        secondary: 'var(--bg-secondary)',
+        tertiary: 'var(--bg-tertiary)',
+        card: 'var(--bg-card)',
+        coral: 'var(--accent-coral)',
+        'coral-hover': 'var(--accent-coral-hover)',
+        midnight: 'var(--border-color)',
+        muted: 'var(--text-muted)',
+      },
+      textColor: {
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        muted: 'var(--text-muted)',
+        coral: 'var(--accent-coral)',
+      },
       fontFamily: {
         sans: ['Quicksand', 'sans-serif'],
       },
@@ -20,5 +36,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };

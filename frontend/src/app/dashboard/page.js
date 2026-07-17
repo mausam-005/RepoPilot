@@ -47,7 +47,8 @@ export default function Dashboard() {
   const isNewUser = stats.bookmarks === 0 && stats.issues === 0
 
   return (
-    <div className="container mx-auto my-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12 md:py-16">
+    <div className="container mx-auto my-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12 md:py-16 flex justify-center">
+      <div className="w-full max-w-7xl">
       <div className="mb-8 sm:mb-12">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-3 flex items-center gap-3">
           {isNewUser && (
@@ -60,29 +61,7 @@ export default function Dashboard() {
         <p className="text-muted text-base sm:text-lg md:text-xl">{isNewUser ? 'Let\'s get started with exploring repositories!' : 'Welcome back! Here\'s your activity overview'}</p>
       </div>
 
-      {isNewUser && (
-        <div className="mb-8 p-6 sm:p-8 border border-coral rounded-lg glow-coral animate-fade-in" style={{background: 'rgba(255, 107, 107, 0.05)'}}>
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 glow-coral" style={{background: 'rgba(255, 107, 107, 0.2)'}}>
-              <svg className="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg sm:text-xl font-semibold text-primary mb-2 flex items-center gap-2">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-coral" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                </svg>
-                Quick Start Guide
-              </h3>
-              <p className="text-muted text-sm sm:text-base mb-4">Start exploring GitHub repositories, bookmark your favorites, and track issues all in one place!</p>
-              <Link href="/repositories" className="btn-coral inline-block">
-                Explore Repositories →
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
         <Link href="/bookmarks" className="group">
@@ -132,60 +111,52 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <div className="card-midnight">
-          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6">Quick Actions</h2>
-          <div className="space-y-3">
-            <Link href="/repositories" className="flex items-center gap-4 p-4 rounded-lg hover:bg-opacity-80 transition-colors group border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6">AI Capabilities</h2>
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 p-4 rounded-lg border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                 <svg className="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
               <div className="flex-1">
-                <span className="text-primary font-medium text-base sm:text-lg block">Search Repositories</span>
-                {isNewUser && <span className="text-coral text-xs">Start here! →</span>}
+                <span className="text-primary font-medium text-base sm:text-lg block mb-1">Repo Intelligence</span>
+                <span className="text-muted text-sm leading-relaxed">Chat directly with any repository using our built-in floating AI Copilot. Ask architectural questions and summarize codebases instantly.</span>
               </div>
-            </Link>
-            <Link href="/issues" className="flex items-center gap-4 p-4 rounded-lg hover:bg-opacity-80 transition-colors group border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+            </div>
+            
+            <div className="flex items-start gap-4 p-4 rounded-lg border border-midnight" style={{background: 'var(--bg-tertiary)'}}>
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
                 <svg className="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <span className="text-primary font-medium text-base sm:text-lg">Create Issue</span>
-            </Link>
+              <div className="flex-1">
+                <span className="text-primary font-medium text-base sm:text-lg block mb-1">Security Scanner</span>
+                <span className="text-muted text-sm leading-relaxed">Automatically generate detailed security posture reports with exact CLI commands to fix missing dependencies and flaws.</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="card-midnight">
-          <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-4 sm:mb-6 flex items-center gap-2">
-            {isNewUser && (
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            )}
-            {isNewUser ? 'How It Works' : 'Getting Started'}
-          </h2>
-          <ul className="space-y-4">
-            <li className="flex items-start gap-3 ">
-              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 glow-coral" style={{background: 'rgba(255, 107, 107, 0.2)'}}>
-                <span className="text-coral text-sm font-bold">1</span>
-              </div>
-              <span className="text-muted">Search and explore GitHub repositories</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 glow-coral" style={{background: 'rgba(255, 107, 107, 0.2)'}}>
-                <span className="text-coral text-sm font-bold">2</span>
-              </div>
-              <span className="text-muted">Bookmark your favorite projects</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 glow-coral" style={{background: 'rgba(255, 107, 107, 0.2)'}}>
-                <span className="text-coral text-sm font-bold">3</span>
-              </div>
-              <span className="text-muted">Create and manage issues</span>
-            </li>
-          </ul>
+        <div className="card-midnight flex flex-col justify-center items-center text-center p-8">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 glow-coral" style={{background: 'rgba(255, 107, 107, 0.1)'}}>
+            <svg className="w-8 h-8 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-primary mb-3">Ready to dive in?</h2>
+          <p className="text-muted mb-8 max-w-sm">Discover trending repositories, track your open issues, and let AI guide you through complex codebases.</p>
+          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+            <Link href="/repositories" className="btn-coral flex-1 max-w-[200px]">
+              Explore Repos
+            </Link>
+            <Link href="/issues" className="btn-dark flex-1 max-w-[200px]">
+              My Issues
+            </Link>
+          </div>
         </div>
+      </div>
       </div>
     </div>
   )
