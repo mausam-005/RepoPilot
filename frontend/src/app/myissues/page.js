@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/axios'
+import { toast } from 'react-hot-toast'
 
 export default function MyIssues() {
   const router = useRouter()
@@ -47,7 +48,7 @@ export default function MyIssues() {
       ))
     } catch (error) {
       console.error('Failed to update issue:', error)
-      alert('Failed to update issue')
+      toast.error('Failed to update issue')
     }
   }
 
@@ -72,10 +73,10 @@ export default function MyIssues() {
         i._id === issue._id ? { ...i, ...editForm } : i
       ))
       cancelEdit()
-      alert('Issue updated successfully!')
+      toast.success('Issue updated successfully!')
     } catch (error) {
       console.error('Failed to update issue:', error)
-      alert('Failed to update issue')
+      toast.error('Failed to update issue')
     }
   }
 
@@ -96,7 +97,7 @@ export default function MyIssues() {
       setIssues(issues.filter(i => i._id !== issueId))
     } catch (error) {
       console.error('Failed to delete issue:', error)
-      alert('Failed to delete issue')
+      toast.error('Failed to delete issue')
     }
   }
 
@@ -109,8 +110,9 @@ export default function MyIssues() {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12">
-      <div className="flex justify-between items-center gap-2 sm:gap-4 mb-8">
+    <div className="container mx-auto px-4 sm:px-8 md:px-12 py-8 sm:py-12 flex justify-center">
+      <div className="w-full max-w-7xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary">My Created Issues</h1>
         <Link href="/issues" className="btn-coral whitespace-nowrap text-xs sm:text-sm md:text-base px-3 py-2 sm:px-4 sm:py-2">
           ← Back
@@ -143,7 +145,12 @@ export default function MyIssues() {
               <div className="flex items-center gap-2 flex-wrap mb-2 sm:mb-3">
                 <span className="text-1.5xl text-primary font-semibold">#{issue.issueNumber}</span>
                 <span className="text-muted text-1.5xl">•</span>
-                <span className="text-1.5xl text-primary font-semibold">{issue.repoOwner}/{issue.repoName}</span>
+                <span 
+                  onClick={() => router.push(`/repositories/${issue.repoOwner}/${issue.repoName}`)}
+                  className="text-1.5xl text-primary font-semibold hover:text-coral cursor-pointer hover:underline transition-colors"
+                >
+                  {issue.repoOwner}/{issue.repoName}
+                </span>
               </div>
               {editingIssue === issue._id ? (
                 <div className="space-y-2 sm:space-y-3 mb-2 sm:mb-3 pt-2 border-t border-midnight">
@@ -208,6 +215,7 @@ export default function MyIssues() {
           ))}
         </div>
       )}
+      </div>
     </div>
   )
 }

@@ -4,12 +4,22 @@ const router = express.Router();
 
 const Issue = require('../models/Issue');
 
-router.post('/:owner/:repo', async (req, res) => {
+const requireGithubToken = (req, res, next) => {
+  if (!req.user.githubToken) {
+    return res.status(403).json({ 
+      message: 'GitHub connection required', 
+      detail: 'Please connect your GitHub account in your Profile to create or update issues.' 
+    });
+  }
+  next();
+};
+
+router.post('/:owner/:repo', requireGithubToken, async (req, res) => {
   try {
     const { owner, repo } = req.params;
     const { title, body } = req.body;
     if (!title) return res.status(400).json({ message: 'Title is required' });
-    const data = await githubService.createIssue(owner, repo, title, body);
+    const data = await githubService.createIssue(owner, repo, title, body, req.user.githubToken);
     
     await Issue.create({
       userId: req.user.id,
@@ -33,10 +43,10 @@ router.post('/:owner/:repo', async (req, res) => {
   }
 });
 
-router.patch('/:owner/:repo/:issueNumber', async (req, res) => {
+router.patch('/:owner/:repo/:issueNumber', requireGithubToken, async (req, res) => {
   try {
     const { owner, repo, issueNumber } = req.params;
-    const data = await githubService.updateIssue(owner, repo, issueNumber, req.body);
+    const data = await githubService.updateIssue(owner, repo, issueNumber, req.body, req.user.githubToken);
     
     await Issue.findOneAndUpdate(
       { userId: req.user.id, repoOwner: owner, repoName: repo, issueNumber: parseInt(issueNumber) },
