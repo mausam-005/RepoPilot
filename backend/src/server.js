@@ -10,6 +10,7 @@ const issuesRoutes = require("./routes/issues.routes");
 const bookmarksRoutes = require("./routes/bookmarks.routes");
 const myIssuesRoutes = require("./routes/myissues.routes");
 const userRoutes = require("./routes/user.routes");
+const aiRoutes = require("./routes/ai.routes");
 const auth = require("./middleware/auth");
 
 const app = express();
@@ -47,11 +48,12 @@ app.use(express.json());
 
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/repos", reposRoutes);
+app.use("/api/repos", auth, reposRoutes);
 app.use("/api/issues", auth, issuesRoutes);
 app.use("/api/bookmarks", auth, bookmarksRoutes);
 app.use("/api/myissues", auth, myIssuesRoutes);
 app.use("/api/user", auth, userRoutes);
+app.use("/api/ai", auth, aiRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
