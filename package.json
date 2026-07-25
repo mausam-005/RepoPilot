@@ -1,0 +1,15 @@
+{
+  "name": "repopilot-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RepoPilot Monorepo",
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm run dev",
+    "install:all": "cd frontend && npm install && cd ../backend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

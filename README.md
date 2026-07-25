@@ -39,11 +39,13 @@ Developers and project managers often face difficulties managing multiple GitHub
 | Category | Features |
 |-----------|-----------|
 | 🧑‍💻 **Authentication** | Login/Signup using JWT, secure password hashing, optional GitHub OAuth |
+| 🤖 **AI Copilot** | Chat with an AI assistant that understands the entire repository context using Groq |
+| 🛡️ **Security Scans** | AI-powered vulnerability scanning and dependency analysis |
+| 🩺 **Repo Health** | Automated health checks, activity scores, and project verdicts |
 | 📦 **Repository Explorer** | Search, sort, filter, and paginate repositories in one place |
 | 🐞 **Issue Tracker** | Full CRUD (Create, Read, Update, Delete) operations with pagination |
 | 📊 **Dashboard** | View recent project activity, open issues, and quick stats |
 | ⭐ **Bookmarks** | Mark and organize favorite repositories for easy access |
-| 🧭 **Pages** | Home, Login, Dashboard, Repositories, Repository Details, Issues, Bookmarks |
 
 ---
 
@@ -55,6 +57,7 @@ Developers and project managers often face difficulties managing multiple GitHub
 | **Backend** | Node.js, Express.js |
 | **Database** | MongoDB Atlas (Primary) |
 | **Authentication** | JWT (Primary), GitHub OAuth (Optional) |
+| **AI Integration** | Groq API (LLaMA 3.3 70B) |
 | **Hosting** | Netlify (Frontend), Render (Backend), MongoDB Atlas (Database) |
 
 ---

@@ -131,7 +131,7 @@ export default function RepoDetail() {
         <div className="w-full">
           <div className="min-w-0">
             {/* Tab Content */}
-            {activeTab === 'overview' && (
+            <div className={activeTab === 'overview' ? 'block' : 'hidden'}>
               <div className="card-midnight p-6 sm:p-8">
                 {readme ? (
                   <div>
@@ -156,11 +156,11 @@ export default function RepoDetail() {
                   <p className="text-muted">No README available for this repository.</p>
                 )}
               </div>
-            )}
+            </div>
 
-            {activeTab === 'security' && (
+            <div className={activeTab === 'security' ? 'block' : 'hidden'}>
               <SecurityPanel owner={owner} repo={repo} />
-            )}
+            </div>
           </div>
         </div>
 

@@ -73,6 +73,12 @@ Use this context to accurately answer the user's questions. If you don't know th
       const systemPrompt = `You are a strict security analyzer. Perform a security analysis on the following repository files for '${owner}/${repo}'.
 Analyze dependencies for known severe vulnerabilities, general security posture, and missing best practices.
 
+CRITICAL INSTRUCTIONS:
+- Do NOT flag a missing package.json as an issue unless this is explicitly a JavaScript/Node.js repository.
+- Do NOT flag a missing requirements.txt as an issue unless this is explicitly a Python repository.
+- Only flag missing dependency files if you are absolutely certain the repository requires them. Otherwise, ignore them completely.
+- A missing SECURITY.md should always be flagged as a low/medium issue.
+
 package.json:
 ---
 ${packageJson || 'Not found'}
