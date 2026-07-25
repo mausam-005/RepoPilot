@@ -67,4 +67,28 @@ router.get('/:owner/:repo/pulls', async (req, res) => {
   }
 });
 
+router.get('/:owner/:repo/commits', async (req, res) => {
+  try {
+    const { owner, repo } = req.params;
+    const { page, per_page } = req.query;
+    const token = req.user ? req.user.githubToken : null;
+    const data = await githubService.getRepoCommits(owner, repo, page, per_page, token);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch commits' });
+  }
+});
+
+router.get('/:owner/:repo/contributors', async (req, res) => {
+  try {
+    const { owner, repo } = req.params;
+    const { page, per_page } = req.query;
+    const token = req.user ? req.user.githubToken : null;
+    const data = await githubService.getRepoContributors(owner, repo, page, per_page, token);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch contributors' });
+  }
+});
+
 module.exports = router;

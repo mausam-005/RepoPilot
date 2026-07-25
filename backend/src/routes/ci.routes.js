@@ -7,9 +7,13 @@ router.get('/:owner/:repo/runs', async (req, res) => {
   try {
     const token = req.user ? req.user.githubToken : null;
     const { owner, repo } = req.params;
+    const page = parseInt(req.query.page) || 1;
     
-    const data = await githubService.getRepoActionsRuns(owner, repo, 1, 10, token);
-    res.json(data);
+    const data = await githubService.getRepoActionsRuns(owner, repo, page, 5, token);
+    res.json({
+      workflow_runs: data.workflow_runs || [],
+      total_count: data.total_count || 0
+    });
   } catch (error) {
     console.error('Fetch CI runs error:', error.message);
     if (error.response && error.response.status === 404) {

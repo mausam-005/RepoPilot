@@ -6,6 +6,8 @@ import api from '@/lib/axios'
 import SecurityPanel from '@/components/SecurityPanel'
 import PullRequestsPanel from '@/components/PullRequestsPanel'
 import DeploymentPanel from '@/components/DeploymentPanel'
+import CommitsPanel from '@/components/CommitsPanel'
+import ContributorsPanel from '@/components/ContributorsPanel'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -16,7 +18,7 @@ export default function RepoDetail() {
   const [repoData, setRepoData] = useState(null)
   const [readme, setReadme] = useState('')
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('overview') // overview, security
+  const [activeTab, setActiveTab] = useState('overview') // overview, security, pulls, deployments, commits, contributors
 
   useEffect(() => {
     fetchRepoData()
@@ -127,6 +129,12 @@ export default function RepoDetail() {
             Security Scan
           </button>
           <button 
+            onClick={() => setActiveTab('commits')}
+            className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'commits' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
+          >
+            Commits
+          </button>
+          <button 
             onClick={() => setActiveTab('pulls')}
             className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'pulls' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
           >
@@ -137,6 +145,12 @@ export default function RepoDetail() {
             className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'deployments' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
           >
             CI/CD & Deployments
+          </button>
+          <button 
+            onClick={() => setActiveTab('contributors')}
+            className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'contributors' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
+          >
+            Contributors
           </button>
         </div>
 
@@ -179,9 +193,16 @@ export default function RepoDetail() {
               <PullRequestsPanel owner={owner} repo={repo} />
             </div>
 
-            {/* Deployments Content */}
             <div className={activeTab === 'deployments' ? 'block' : 'hidden'}>
               <DeploymentPanel owner={owner} repo={repo} htmlUrl={repoData.html_url} />
+            </div>
+
+            <div className={activeTab === 'commits' ? 'block' : 'hidden'}>
+              <CommitsPanel owner={owner} repo={repo} />
+            </div>
+
+            <div className={activeTab === 'contributors' ? 'block' : 'hidden'}>
+              <ContributorsPanel owner={owner} repo={repo} />
             </div>
           </div>
         </div>

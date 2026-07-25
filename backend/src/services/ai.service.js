@@ -262,20 +262,83 @@ PR Status Metadata:
 
 PR Diff:
 \`\`\`diff
-${diffContent.substring(0, 15000)}
+${(typeof diffContent === 'string' ? diffContent : (diffContent ? JSON.stringify(diffContent) : 'No diff available')).substring(0, 15000)}
 \`\`\`
 `;
 
-      const chatCompletion = await groq.chat.completions.create({
-        messages: [{ role: 'system', content: systemPrompt }],
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: "system", content: systemPrompt }],
         model: MODEL,
         temperature: 0.2,
       });
 
-      return chatCompletion.choices[0]?.message?.content || "No review generated.";
+      return completion.choices[0]?.message?.content || "No review generated.";
     } catch (error) {
-      console.error('Code Review Error:', error);
+      console.error('Groq AI PR Review Error:', error.message);
       return "**AI Code Review failed.** The PR diff might be too large or the AI service is unavailable.";
+    }
+  },
+
+  async reviewCommit(owner, repo, sha, userToken = null) {
+    try {
+      const githubService = require('./github.service');
+      const diffContent = await githubService.getRepoCommitDiff(owner, repo, sha, userToken);
+      
+      const systemPrompt = `You are a strict, highly accurate Senior Software Engineer conducting a precise and concise code review for a single commit on '${owner}/${repo}'.
+You will receive the raw diff of the commit.
+
+CRITICAL RULES FOR VERDICT:
+- Output "Reject" if there are CRITICAL security vulnerabilities, hardcoded secrets, or logic that breaks the application.
+- Output "Approve" otherwise.
+
+Format strictly as:
+### Summary
+[1-2 sentences summarizing the change]
+
+### Key Findings
+- [Bullet 1]
+- [Bullet 2]
+
+### Code Quality
+- [Bullet 1]
+- [Bullet 2]
+
+### Verdict
+**[Approve/Reject]**: [1 sentence reasoning]
+
+---
+
+Example of a good output:
+### Summary
+This commit updates the login endpoint to use bcrypt for password hashing instead of plain text comparison.
+
+### Key Findings
+- Resolves a critical security flaw where passwords were inadvertently logged.
+- The use of bcrypt with 10 salt rounds follows standard security practices.
+
+### Code Quality
+- The code is clean and handles bcrypt's asynchronous nature properly.
+
+### Verdict
+**Approve**: The logic is functionally correct and significantly improves application security.
+---
+
+Commit Diff:
+\`\`\`diff
+${(typeof diffContent === 'string' ? diffContent : (diffContent ? JSON.stringify(diffContent) : 'No diff available')).substring(0, 15000)}
+\`\`\`
+`;
+
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: "system", content: systemPrompt }],
+        model: MODEL,
+        temperature: 0.2,
+      });
+
+      return completion.choices[0]?.message?.content || "No review generated.";
+    } catch (error) {
+      console.error('Groq AI Commit Review Error:', error.message);
+      throw error;
     }
   }
 };

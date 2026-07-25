@@ -5,18 +5,21 @@ export default function DeploymentPanel({ owner, repo, htmlUrl }) {
   const [runs, setRuns] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
     fetchCIRuns()
-  }, [owner, repo])
+  }, [owner, repo, page])
 
   const fetchCIRuns = async () => {
     try {
       setLoading(true)
       const token = localStorage.getItem('token')
       const headers = token ? { Authorization: `Bearer ${token}` } : {}
-      const { data } = await api.get(`/ci/${owner}/${repo}/runs`, { headers })
+      const { data } = await api.get(`/ci/${owner}/${repo}/runs?page=${page}`, { headers })
       setRuns(data.workflow_runs || [])
+      setTotalPages(Math.ceil((data.total_count || 0) / 5) || 1)
     } catch (err) {
       console.error('Failed to fetch CI runs:', err)
       setError('Failed to fetch CI workflow runs. Make sure GitHub Actions are enabled for this repository.')
@@ -27,40 +30,6 @@ export default function DeploymentPanel({ owner, repo, htmlUrl }) {
 
   return (
     <div className="space-y-8">
-      {/* Deploy Actions */}
-      <div className="card-midnight p-6 sm:p-8 border border-midnight shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-5">
-          <svg className="w-48 h-48 text-coral" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.2L18.8 20H5.2L12 6.2z" /></svg>
-        </div>
-        <h2 className="text-2xl font-bold text-primary mb-2 flex items-center gap-3">
-          One-Click Deployments
-        </h2>
-        <p className="text-muted mb-8 max-w-2xl">Instantly deploy this repository to your favorite cloud platforms without leaving RepoPilot. We use secure magic URLs to hand off the deployment directly to the platform.</p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-          <a 
-            href={`https://vercel.com/new/clone?repository-url=${encodeURIComponent(htmlUrl)}`}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex-1 bg-white hover:bg-gray-100 text-black font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors group"
-          >
-            <svg className="w-6 h-6" viewBox="0 0 76 65" fill="currentColor"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z"/></svg>
-            Deploy to Vercel
-            <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-          </a>
-          
-          <a 
-            href={`https://render.com/deploy?repo=${encodeURIComponent(htmlUrl)}`}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex-1 bg-[#46E3B7] hover:bg-[#3bc29c] text-black font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-colors group"
-          >
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
-            Deploy to Render
-            <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-          </a>
-        </div>
-      </div>
 
       {/* CI/CD Pipeline Feed */}
       <div className="card-midnight p-6 sm:p-8">
@@ -83,16 +52,14 @@ export default function DeploymentPanel({ owner, repo, htmlUrl }) {
             <p>No CI/CD workflow runs found for this repository.</p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {runs.map((run) => (
-              <a 
-                key={run.id} 
-                href={run.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-xl border border-midnight hover:border-coral transition-colors" 
-                style={{background: 'var(--bg-tertiary)'}}
-              >
+          <div>
+            <div className="space-y-4">
+              {runs.map((run) => (
+                <div 
+                  key={run.id} 
+                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-xl border border-midnight" 
+                  style={{background: 'var(--bg-tertiary)'}}
+                >
                 <div className="flex items-start gap-4">
                   <div className="mt-1">
                     {run.status === 'completed' ? (
@@ -106,7 +73,11 @@ export default function DeploymentPanel({ owner, repo, htmlUrl }) {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-primary font-semibold truncate max-w-[200px] sm:max-w-md">{run.display_title || run.head_commit?.message || run.name}</h3>
+                    <h3 className="text-primary font-semibold truncate max-w-[200px] sm:max-w-md">
+                      <a href={run.html_url} target="_blank" rel="noopener noreferrer" className="hover:text-coral transition-colors">
+                        {run.display_title || run.head_commit?.message || run.name}
+                      </a>
+                    </h3>
                     <p className="text-sm text-muted mt-1 flex items-center gap-2">
                       <span className="bg-secondary px-1.5 py-0.5 rounded text-white text-xs">{run.head_branch}</span>
                       {run.name}
@@ -116,13 +87,37 @@ export default function DeploymentPanel({ owner, repo, htmlUrl }) {
                 
                 <div className="text-sm text-muted whitespace-nowrap flex flex-col items-end">
                   <span className="flex items-center gap-1">
-                    <img src={run.actor?.avatar_url} className="w-4 h-4 rounded-full" alt={run.actor?.login} />
-                    {run.actor?.login}
+                    <img src={run.actor?.avatar_url} className="w-4 h-4 rounded-full" alt="" />
+                    <a href={`https://github.com/${run.actor?.login}`} target="_blank" rel="noopener noreferrer" className="hover:text-coral transition-colors hover:underline">
+                      {run.actor?.login}
+                    </a>
                   </span>
                   <span className="mt-1 opacity-75">{new Date(run.created_at).toLocaleString()}</span>
                 </div>
-              </a>
+              </div>
             ))}
+          </div>
+          
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-6">
+              <button 
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${page === 1 ? 'bg-secondary text-muted cursor-not-allowed' : 'bg-midnight text-primary hover:text-coral'}`}
+              >
+                Previous
+              </button>
+              <span className="text-muted text-sm font-medium">Page {page} of {totalPages}</span>
+              <button 
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${page === totalPages ? 'bg-secondary text-muted cursor-not-allowed' : 'bg-midnight text-primary hover:text-coral'}`}
+              >
+                Next
+              </button>
+            </div>
+          )}
           </div>
         )}
       </div>

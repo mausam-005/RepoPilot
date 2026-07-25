@@ -79,5 +79,26 @@ module.exports = {
       params: { page, per_page: perPage }
     });
     return data;
+  },
+
+  async getRepoCommits(owner, repo, page = 1, perPage = 30, userToken = null) {
+    const { data } = await getClient(userToken).get(`/repos/${owner}/${repo}/commits`, {
+      params: { page, per_page: perPage }
+    });
+    return data;
+  },
+
+  async getRepoCommitDiff(owner, repo, sha, userToken = null) {
+    const client = getClient(userToken);
+    client.defaults.headers['Accept'] = 'application/vnd.github.v3.diff';
+    const { data } = await client.get(`/repos/${owner}/${repo}/commits/${sha}`);
+    return data;
+  },
+
+  async getRepoContributors(owner, repo, page = 1, perPage = 30, userToken = null) {
+    const { data } = await getClient(userToken).get(`/repos/${owner}/${repo}/contributors`, {
+      params: { page, per_page: perPage }
+    });
+    return data;
   }
 };

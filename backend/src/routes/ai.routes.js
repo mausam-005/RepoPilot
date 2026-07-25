@@ -78,6 +78,24 @@ router.post('/review-pr', async (req, res) => {
   }
 });
 
+// POST /api/ai/review-commit
+router.post('/review-commit', async (req, res) => {
+  try {
+    const { owner, repo, sha } = req.body;
+    if (!owner || !repo || !sha) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+    
+    const token = req.user ? req.user.githubToken : null;
+    
+    const review = await aiService.reviewCommit(owner, repo, sha, token);
+    res.json({ review });
+  } catch (error) {
+    console.error('Review Commit endpoint error:', error);
+    res.status(500).json({ error: 'Failed to generate commit review' });
+  }
+});
+
 // GET /api/ai/history
 router.get('/history', async (req, res) => {
   try {
