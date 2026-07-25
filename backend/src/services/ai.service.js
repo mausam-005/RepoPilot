@@ -8,16 +8,19 @@ const MODEL = 'llama-3.3-70b-versatile';
 module.exports = {
   async chatWithRepo(owner, repo, question, history = [], userToken = null) {
     try {
-      // 1. Fetch Repo Context (Readme + File Tree)
-      const [readme, fileTree] = await Promise.all([
-        githubContentService.getReadme(owner, repo, userToken),
-        githubContentService.getFileTree(owner, repo, 'main', userToken)
-      ]);
+      let systemPrompt = '';
+      
+      if (owner && repo) {
+        // 1. Fetch Repo Context (Readme + File Tree)
+        const [readme, fileTree] = await Promise.all([
+          githubContentService.getReadme(owner, repo, userToken),
+          githubContentService.getFileTree(owner, repo, 'main', userToken)
+        ]);
 
-      const treeStr = fileTree.map(f => f.path).slice(0, 1000).join('\n'); // Limit to 1000 files
+        const treeStr = fileTree.map(f => f.path).slice(0, 1000).join('\n'); // Limit to 1000 files
 
-      // 2. Build the System Prompt
-      const systemPrompt = `You are a helpful AI assistant answering questions about the GitHub repository '${owner}/${repo}'. 
+        // 2. Build the System Prompt
+        systemPrompt = `You are a helpful AI assistant answering questions about the GitHub repository '${owner}/${repo}'. 
 Here is the repository's README:
 ---
 ${readme || 'No README provided'}
@@ -29,11 +32,17 @@ ${treeStr || 'No file tree available'}
 ---
 
 Use this context to accurately answer the user's questions. If you don't know the answer based on the provided context, you can say so.`;
+      } else {
+        systemPrompt = `You are the RepoPilot AI Copilot, a helpful platform assistant. 
+Your goal is to assist the user with general software development questions, GitHub best practices, or explain how to use the RepoPilot platform.
+RepoPilot is a unified platform for developers to explore repositories, manage issues, and monitor GitHub activity all in one place.
+Answer the user's questions in a friendly, concise, and helpful manner.`;
+      }
 
       // 3. Convert history to Groq (OpenAI) format
       const messages = [
         { role: 'system', content: systemPrompt },
-        { role: 'assistant', content: 'Understood. I will answer questions about this repository based on the provided context.' }
+        { role: 'assistant', content: owner && repo ? 'Understood. I will answer questions about this repository based on the provided context.' : 'Understood. I am ready to assist with general software development and RepoPilot questions.' }
       ];
 
       for (const msg of history) {

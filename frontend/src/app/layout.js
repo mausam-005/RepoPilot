@@ -1,6 +1,7 @@
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import AIChat from '@/components/AIChat'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         />
         <Header />
         <main className="flex-1">{children}</main>
+        <AIChat />
         <Footer />
       </body>
     </html>

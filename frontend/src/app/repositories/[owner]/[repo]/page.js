@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/axios'
-import AIChat from '@/components/AIChat'
 import SecurityPanel from '@/components/SecurityPanel'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -163,9 +162,6 @@ export default function RepoDetail() {
             </div>
           </div>
         </div>
-
-        {/* Global Floating AI Chat Widget */}
-        <AIChat owner={owner} repo={repo} />
       </div>
     </div>
   )
