@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/repopilot.png" alt="RepoPilot" className="w-9 h-9 rounded-lg"/>
+              <img src="/repopilot.png" alt="Logo" className="w-9 h-9 rounded-lg"/>
               <h3 className="text-2xl font-bold text-primary" style={{textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'}}>
                 RepoPilot
               </h3>

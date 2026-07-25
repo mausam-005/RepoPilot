@@ -11,7 +11,11 @@ const bookmarksRoutes = require("./routes/bookmarks.routes");
 const myIssuesRoutes = require("./routes/myissues.routes");
 const userRoutes = require("./routes/user.routes");
 const aiRoutes = require("./routes/ai.routes");
+const analyticsRoutes = require("./routes/analytics.routes");
+const ciRoutes = require("./routes/ci.routes");
 const auth = require("./middleware/auth");
+const http = require('http');
+const { initSocket } = require('./socket');
 
 const app = express();
 
@@ -54,8 +58,13 @@ app.use("/api/bookmarks", auth, bookmarksRoutes);
 app.use("/api/myissues", auth, myIssuesRoutes);
 app.use("/api/user", auth, userRoutes);
 app.use("/api/ai", auth, aiRoutes);
+app.use("/api/analytics", auth, analyticsRoutes);
+app.use("/api/ci", auth, ciRoutes);
+
+const server = http.createServer(app);
+initSocket(server);
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

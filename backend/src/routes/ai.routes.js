@@ -60,6 +60,24 @@ router.post('/repo-health', async (req, res) => {
   }
 });
 
+// POST /api/ai/review-pr
+router.post('/review-pr', async (req, res) => {
+  try {
+    const { owner, repo, pullNumber } = req.body;
+    if (!owner || !repo || !pullNumber) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+    
+    const token = req.user ? req.user.githubToken : null;
+    
+    const review = await aiService.reviewPullRequest(owner, repo, pullNumber, token);
+    res.json({ review });
+  } catch (error) {
+    console.error('Review PR endpoint error:', error);
+    res.status(500).json({ error: 'Failed to generate PR review' });
+  }
+});
+
 // GET /api/ai/history
 router.get('/history', async (req, res) => {
   try {

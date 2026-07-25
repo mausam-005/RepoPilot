@@ -53,5 +53,31 @@ module.exports = {
       params: { q: `author:${username} type:issue`, sort: 'created', order: 'desc' }
     });
     return data.items;
+  },
+
+  async getRepoPullRequests(owner, repo, state = 'open', page = 1, perPage = 30, userToken = null) {
+    const { data } = await getClient(userToken).get(`/repos/${owner}/${repo}/pulls`, {
+      params: { state, page, per_page: perPage }
+    });
+    return data;
+  },
+
+  async getRepoPullRequestDiff(owner, repo, pullNumber, userToken = null) {
+    const client = getClient(userToken);
+    client.defaults.headers['Accept'] = 'application/vnd.github.v3.diff';
+    const { data } = await client.get(`/repos/${owner}/${repo}/pulls/${pullNumber}`);
+    return data;
+  },
+
+  async getPullRequestDetails(owner, repo, pullNumber, userToken = null) {
+    const { data } = await getClient(userToken).get(`/repos/${owner}/${repo}/pulls/${pullNumber}`);
+    return data;
+  },
+
+  async getRepoActionsRuns(owner, repo, page = 1, perPage = 10, userToken = null) {
+    const { data } = await getClient(userToken).get(`/repos/${owner}/${repo}/actions/runs`, {
+      params: { page, per_page: perPage }
+    });
+    return data;
   }
 };

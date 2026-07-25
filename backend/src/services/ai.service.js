@@ -181,5 +181,101 @@ Output the result as a strict JSON object with this exact structure:
         description: "AI Health service is currently unavailable."
       };
     }
+  },
+
+  async reviewPullRequest(owner, repo, pullNumber, userToken = null) {
+    try {
+      const githubService = require('./github.service');
+      // Fetch the raw diff of the PR
+      const diffContent = await githubService.getRepoPullRequestDiff(owner, repo, pullNumber, userToken);
+      const prDetails = await githubService.getPullRequestDetails(owner, repo, pullNumber, userToken);
+      
+      const systemPrompt = `You are a strict, highly accurate Senior Software Engineer conducting a precise and concise code review for a Pull Request on '${owner}/${repo}'.
+You will receive the raw diff and the current PR Status metadata.
+
+CRITICAL RULES FOR VERDICT:
+- If the PR Status indicates "dirty" (merge conflicts) or "failing/unstable" (CI checks failing), you MUST output "Reject" and cite these status failures as the primary reason.
+- ONLY output "Reject" if there are CRITICAL security vulnerabilities, complete application breakers, merge conflicts, or failing CI checks.
+
+Format strictly as:
+### Summary
+1-2 sentences max explaining the core change.
+
+### Key Findings
+- Bullet 1 (major bugs, logic flaws, security issues, or performance hits)
+- (If no major issues, write "- No critical issues found.")
+
+### Code Quality
+- Bullet 1 (important architectural or styling notes only)
+- (If code is clean, write "- Code follows standard practices.")
+
+### Verdict
+**[Approve | Request Changes | Reject]**: 1 short sentence justification.
+
+---
+Here are examples of how to review different PRs:
+
+Example 1 (Bad Code):
+PR Diff:
++ const db = mysql.connect("root", "password123");
++ db.query("SELECT * FROM users WHERE id = " + req.query.id);
+
+Review:
+### Summary
+This PR adds database connectivity and a user query route.
+
+### Key Findings
+- CRITICAL: SQL Injection vulnerability on the query by directly concatenating \`req.query.id\`. Use parameterized queries.
+- CRITICAL: Hardcoded database credentials in source code. Use environment variables.
+
+### Code Quality
+- Database connection should ideally be separated into a dedicated configuration module.
+
+### Verdict
+**Reject**: Critical security vulnerabilities (SQL injection and hardcoded credentials) must be addressed immediately.
+
+Example 2 (Good Code with minor issues):
+PR Diff:
++ function calculateTotal(prices) {
++   let total = 0;
++   for (let i=0; i<prices.length; i++) { total += prices[i]; }
++   return total;
++ }
+
+Review:
+### Summary
+This PR introduces a function to calculate the sum of an array of prices.
+
+### Key Findings
+- No critical issues found.
+
+### Code Quality
+- Consider using the built-in \`reduce\` method (e.g., \`prices.reduce((a, b) => a + b, 0)\`) for more idiomatic JavaScript.
+
+### Verdict
+**Approve**: The logic is functionally correct and safe, despite minor modern JS styling improvements possible.
+---
+
+PR Status Metadata:
+- Mergeable: ${prDetails.mergeable === null ? 'Unknown' : prDetails.mergeable}
+- Mergeable State: ${prDetails.mergeable_state || 'Unknown'} (Note: 'dirty' = conflicts, 'unstable' = failing checks)
+
+PR Diff:
+\`\`\`diff
+${diffContent.substring(0, 15000)}
+\`\`\`
+`;
+
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [{ role: 'system', content: systemPrompt }],
+        model: MODEL,
+        temperature: 0.2,
+      });
+
+      return chatCompletion.choices[0]?.message?.content || "No review generated.";
+    } catch (error) {
+      console.error('Code Review Error:', error);
+      return "**AI Code Review failed.** The PR diff might be too large or the AI service is unavailable.";
+    }
   }
 };

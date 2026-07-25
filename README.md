@@ -41,10 +41,12 @@ Developers and project managers often face difficulties managing multiple GitHub
 | 🧑‍💻 **Authentication** | Login/Signup using JWT, secure password hashing, optional GitHub OAuth |
 | 🤖 **AI Copilot** | Chat with an AI assistant that understands the entire repository context using Groq |
 | 🛡️ **Security Scans** | AI-powered vulnerability scanning and dependency analysis |
-| 🩺 **Repo Health** | Automated health checks, activity scores, and project verdicts |
+| 🧠 **AI Code Reviews** | Context-aware PR reviews that check GitHub CI status and merge conflicts before making highly deterministic verdicts |
+| 📈 **Analytics Dashboard** | Glassmorphic dashboard with Recharts plotting language distribution and 30-day commit velocity |
+| ⚡ **Real-Time WebSockets** | Live Activity Feed powered by Socket.io and a custom GitHub event background poller |
+| 🚀 **CI/CD Deployments** | Monitor native GitHub Actions workflows and scaffold production apps with One-Click Deployments to Vercel and Render |
 | 📦 **Repository Explorer** | Search, sort, filter, and paginate repositories in one place |
-| 🐞 **Issue Tracker** | Full CRUD (Create, Read, Update, Delete) operations with pagination |
-| 📊 **Dashboard** | View recent project activity, open issues, and quick stats |
+| 🐞 **Issue Tracker** | Full CRUD operations with pagination |
 | ⭐ **Bookmarks** | Mark and organize favorite repositories for easy access |
 
 ---
@@ -53,11 +55,12 @@ Developers and project managers often face difficulties managing multiple GitHub
 
 | Layer | Technologies |
 |--------|--------------|
-| **Frontend** | Next.js, React, Tailwind CSS, Axios |
-| **Backend** | Node.js, Express.js |
+| **Frontend** | Next.js, React, Tailwind CSS, Axios, Recharts, Socket.io-client |
+| **Backend** | Node.js, Express.js, Socket.io |
 | **Database** | MongoDB Atlas (Primary) |
 | **Authentication** | JWT (Primary), GitHub OAuth (Optional) |
-| **AI Integration** | Groq API (LLaMA 3.3 70B) |
+| **AI Integration** | Groq API (LLaMA 3.3 70B) with Few-Shot Prompting |
+| **CI/CD** | GitHub Actions Integration, Vercel/Render Magic Deploy URLs |
 | **Hosting** | Netlify (Frontend), Render (Backend), MongoDB Atlas (Database) |
 
 ---

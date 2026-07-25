@@ -4,6 +4,8 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/axios'
 import SecurityPanel from '@/components/SecurityPanel'
+import PullRequestsPanel from '@/components/PullRequestsPanel'
+import DeploymentPanel from '@/components/DeploymentPanel'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -124,6 +126,18 @@ export default function RepoDetail() {
           >
             Security Scan
           </button>
+          <button 
+            onClick={() => setActiveTab('pulls')}
+            className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'pulls' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
+          >
+            Pull Requests
+          </button>
+          <button 
+            onClick={() => setActiveTab('deployments')}
+            className={`px-6 py-3 font-semibold text-sm transition-colors whitespace-nowrap border-b-2 flex items-center gap-2 ${activeTab === 'deployments' ? 'border-coral text-coral' : 'border-transparent text-muted hover:text-primary'}`}
+          >
+            CI/CD & Deployments
+          </button>
         </div>
 
         {/* Main Content Area (Full Width) */}
@@ -159,6 +173,15 @@ export default function RepoDetail() {
 
             <div className={activeTab === 'security' ? 'block' : 'hidden'}>
               <SecurityPanel owner={owner} repo={repo} />
+            </div>
+
+            <div className={activeTab === 'pulls' ? 'block' : 'hidden'}>
+              <PullRequestsPanel owner={owner} repo={repo} />
+            </div>
+
+            {/* Deployments Content */}
+            <div className={activeTab === 'deployments' ? 'block' : 'hidden'}>
+              <DeploymentPanel owner={owner} repo={repo} htmlUrl={repoData.html_url} />
             </div>
           </div>
         </div>

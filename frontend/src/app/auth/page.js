@@ -7,7 +7,7 @@ const adjectives = ["Cool", "Super", "Happy", "Smart", "Brave", "Swift", "Cosmic
 const nouns = ["Coder", "Pilot", "Dev", "Hacker", "Fox", "Bear", "Wolf", "Owl", "Eagle", "Panda"];
 
 export default function Auth() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

@@ -55,4 +55,16 @@ router.get('/:owner/:repo/issues', async (req, res) => {
   }
 });
 
+router.get('/:owner/:repo/pulls', async (req, res) => {
+  try {
+    const { owner, repo } = req.params;
+    const { state, page, per_page } = req.query;
+    const token = req.user ? req.user.githubToken : null;
+    const data = await githubService.getRepoPullRequests(owner, repo, state, page, per_page, token);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch pull requests' });
+  }
+});
+
 module.exports = router;
